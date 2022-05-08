@@ -1,9 +1,3 @@
-- Nome: Marco Antonio de Sena Campos
-- Instituição: Udemy
-- Curso: Formação Spark com Pyspark(2022)
-- Professor: Fernando Amaral
-
-
 
 # Ações e Transformações usando RDD usando pyspark 
 
@@ -17,7 +11,7 @@ sena@sena-VirtualBox:~/ms-pyspark$ `pyspark`
 ## Criar o RDD   
 >` numeros = sc.parallelize([1,2,3,4,5,6,7,8,9,10]) `
 
-1. take() -> Exibe elementos do dataframe 
+1. take() -> Exibe elementos do RDD
 > `numeros.take(5)`
 
 <prev>

@@ -4,9 +4,12 @@
 ## 1.Download e Instalação Oracle Virtual Box
 
 
-https://www.oracle.com/br/virtualization/solutions/try-oracle-vm-virtualbox/?source=:ad:pas:go:dg:a_lad:71700000086320336-58700007355811288-p65908948855:RC_WWMK201210P00015C0001:PORT&SC=:ad:pas:go:dg:a_lad::RC_WWMK201210P00015C0001:PORT:&gclid=Cj0KCQjwsdiTBhD5ARIsAIpW8CKTiHq6RdyTH1L7sk3bbZY4LHdDOR-cK5chpzwSmiNeZF2zrwsLbCIaAkf4EALw_wcB&gclsrc=aw.ds
+https://www.virtualbox.org/wiki/Downloads
 
 ## 2.Download de ISO do Ubuntu
+Precisa ser o packege ISO.
+https://ubuntu.com/download/desktop
+
 
 ## 3.Instalação do Ubuntu na VM
 
