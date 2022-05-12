@@ -178,66 +178,36 @@ only showing top 2 rows
 +---------+--------------------+------+------+------+
 only showing top 2 rows
 
+`from pyspark.sql.functions import sum as SUM`
 
+`vendas_por_status = vendas_df.join(clientes_df,vendas_df.ClienteID == clientes_df.ClienteID).groupBy(clientes_df.Status).agg(SUM("Total")).orderBy(Func.col("sum(Total)").desc())show()`
 
-vendas.join(clientes, vendas.ClienteID ==clientes.ClienteID ).groupBy(clientes.Status).agg(sum("Total")).orderBy(Func.col("sum(Total)").desc())
+REsposta atividade 3:
+Sem ordenar 
+`vendas_df.join(clientes_df,vendas_df.ClienteID == clientes_df.ClienteID).groupBy(clientes_df.Status).agg(SUM("Total")).show()`
 
-
-vendas_df.join(clientes, vendas_df.ClienteID ==clientes_df.ClienteID ).groupBy(clientes_df.Status).agg(sum("Total")).orderBy(Func.col("sum(Total)").desc()).show()
-
-
-xxxxxxxxxxxxxxx
-
-vendas_agrupada = vendas_df.join(clientes_df, vendas_df.ClienteID == clientes_df.ClienteID).groupBy(clientes_df.Status).agg(sum("Total")).orderBy(Func.col(sum("Total")).orderBy(Func.col("sum(Total)").desc())
-
-> vendas_por_status = 
- vendas_df.join(clientes_df,vendas_df.ClienteID == clientes_df.ClienteID).groupBy(clientes_df.Status).agg(sum("Total")).orderBy(Func.col("sum(Total)").desc())
-
-Traceback (most recent call last):
-
-XXXXXX
-
-cond = [df.name == df3.name, df.age == df3.age]
-df.join(df3, cond, 'outer').select(df.name, df3.age).collect()
-
-XXXXXX
-
-
-
-`condicao =[vendas_df.ClienteID == clientes_df.ClienteID]`
-`vendas_df.join(clientes_df,condicao,'inner').select(clientes_df.Status,vendas_df.Total).show()`
-
-.groupBy(clientes.Status)
-
-````
-+------+--------+
-|Status|   Total|
-+------+--------+
-|Silver|  8053.6|
-|Silver|   150.4|
-|Silver|  6087.0|
-|Silver| 13828.6|
-|Silver|26096.66|
-|Silver| 18402.0|
-|Silver|  7524.2|
-|Silver| 12036.6|
-|Silver| 2804.75|
-|Silver|  8852.0|
-|Silver|16545.25|
-|Silver|11411.88|
-|Silver| 15829.7|
-|Silver| 6154.36|
-|Silver| 3255.08|
-|Silver| 2901.25|
-|Silver| 15829.7|
-|Silver|16996.36|
-|Silver|   155.0|
-|Silver|  131.75|
-+------+--------+
+``` 
++--------+------------------+
+|  Status|        sum(Total)|
++--------+------------------+
+|Platinum|          12584.68|
+|  Silver|        3014291.36|
+|    Gold|27286.690000000002|
++--------+------------------+
 ``` 
 
-# *** Falta agrupar
+Ordenado em decrescente e atribuindo para um daframe Atividade3
 
-vendas_df.join(clientes_df,condicao,'inner').select(clientes_df.Status,vendas_df.Total).agg(sum("Total")).show()
+`Atividade3 =vendas_df.join(clientes_df,vendas_df.ClienteID == clientes_df.ClienteID).groupBy(clientes_df.Status).agg(SUM("Total")).orderBy(Func.col("sum(Total)").desc())`
 
-.groupBy(clientes_df.Status)
+`Atividade3.show()`
+
+``` 
++--------+------------------+
+|  Status|        sum(Total)|
++--------+------------------+
+|  Silver|        3014291.36|
+|    Gold|27286.690000000002|
+|Platinum|          12584.68|
++--------+------------------+
+``` 
