@@ -454,3 +454,173 @@ SyntaxError: invalid syntax
     ^
 SyntaxError: invalid syntax
  `or.schema()` 
+
+
+# Foi renomeiado os arquivos para os nomes que estava sendo lido.Dessa forma deu certo
+
+ par = spark.read.format("parquet").load("/home/sena/dfimportparquet/despachantes.parquet")
+
+>>> par.show()
+```
++---+-------------------+------+-------------+------+----------+
+| id|               nome|status|       cidade|vendas|      data|
++---+-------------------+------+-------------+------+----------+
+|  1|   Carminda Pestana| Ativo|  Santa Maria|    23|2020-08-11|
+|  2|    Deolinda Vilela| Ativo|Novo Hamburgo|    34|2020-03-05|
+|  3|   Emídio Dornelles| Ativo| Porto Alegre|    34|2020-02-05|
+|  4|Felisbela Dornelles| Ativo| Porto Alegre|    36|2020-02-05|
+|  5|     Graça Ornellas| Ativo| Porto Alegre|    12|2020-02-05|
+|  6|   Matilde Rebouças| Ativo| Porto Alegre|    22|2019-01-05|
+|  7|    Noêmia   Orriça| Ativo|  Santa Maria|    45|2019-10-05|
+|  8|      Roque Vásquez| Ativo| Porto Alegre|    65|2020-03-05|
+|  9|      Uriel Queiroz| Ativo| Porto Alegre|    54|2018-05-05|
+| 10|   Viviana Sequeira| Ativo| Porto Alegre|     0|2020-09-05|
++---+-------------------+------+-------------+------+----------+
+
+```
+
+> `par.schema`
+```
+StructType(List(StructField(id,IntegerType,true),StructField(nome,StringType,true),StructField(status,StringType,true),StructField(cidade,StringType,true),StructField(vendas,IntegerType,true),StructField(data,StringType,true)))
+
+``` 
+
+# Importando clientes no formato parquet
+
+`clientes_df =  spark.read.format("parquet").load("/home/sena/download/Atividades/Clientes.parquet")`
+
+
+`from pyspark.sql import functions as Func`
+
+# Mostrando apenas os campos Cliente,Estado e Status 
+ clientes_df.select("Cliente","Estado","Status").show()
++--------------------+------+--------+
+|             Cliente|Estado|  Status|
++--------------------+------+--------+
+|Adelina Buenaventura|    RJ|  Silver|
+|        Adelino Gago|    RJ|  Silver|
+|     Adolfo Patrício|    PE|  Silver|
+|    Adriana Guedelha|    RO|Platinum|
+|       Adélio Lisboa|    SE|  Silver|
+|       Adérito Bahía|    MA|  Silver|
+|       Aida Dorneles|    RN|  Silver|
+|   Alarico Quinterno|    AC|  Silver|
+|    Alberto Cezimbra|    AM|  Silver|
+|    Alberto Monsanto|    RN|    Gold|
+|       Albino Canela|    AC|  Silver|
+|     Alceste Varanda|    RR|  Silver|
+|  Alcides Carvalhais|    RO|  Silver|
+|        Aldo Martins|    GO|  Silver|
+|   Alexandra Tabares|    MG|  Silver|
+|      Alfredo Cotrim|    SC|  Silver|
+|     Almeno Figueira|    SC|  Silver|
+|      Alvito Peralta|    AM|  Silver|
+|     Amadeu Martinho|    RN|  Silver|
+|      Amélia Estévez|    PE|  Silver|
++--------------------+------+--------+
+
+# Clientes em order descrecente por varios campos
+
+`clie_order_desc =  clientes_df.orderBy(  Func.col("Cliente").desc(), Func.col("Estado").desc(), Func.col("Status").desc() ) `
+
+`clie_order_desc.show()`
+
+```
++---------+--------------------+------+------+--------+
+|ClienteID|             Cliente|Estado|Genero|  Status|
++---------+--------------------+------+------+--------+
+|      250|Joaquina Vasconcelos|    SC|     F|  Silver|
+|      249|      Joaquim Mieiro|    TO|     M|  Silver|
+|      248|     Joaquim Hurtado|    AP|     M|  Silver|
+|      247|          Joana Ataí|    GO|     F|Platinum|
+|      246|Jandaíra Albuquerque|    SP|     F|  Silver|
+|      245|    Jacinto Dorneles|    MG|     M|  Silver|
+|      244|       Iuri Guterres|    GO|     M|  Silver|
+|      243|       Israel Canela|    RN|     M|  Silver|
+|      242|    Isabel Meirelles|    RO|     F|  Silver|
+|      241|    Irene Villanueva|    AC|     F|  Silver|
+|      240|      Irene Meireles|    MS|     F|  Silver|
+|      239|    Irani Jaguariúna|    AM|     F|  Silver|
+|      238|    Iraci Alcoforado|    MS|     F|  Silver|
+|      237|   Iracema Rodríguez|    BA|     F|    Gold|
+|      236|     Iolanda Rabello|    PB|     F|  Silver|
+|      235|          Inês Neres|    CE|     F|  Silver|
+|      234|        Ingrit Mayor|    SC|     M|  Silver|
+|      233|      Ilduara Chávez|    MT|     F|  Silver|
+|      232|      Ifigénia Pires|    PA|     F|  Silver|
+|      231|    Ifigénia Lustosa|    PE|     F|  Silver|
++---------+--------------------+------+------+--------+
+```
+# Ordenando cliente em order decrescente de ID
+`clie_orderID_desc = clientes_df.orderBy(  Func.col("ClienteID").desc() ) `
+
+` clie_orderID_desc.show() `
+
+```
++---------+--------------------+------+------+--------+
+|ClienteID|             Cliente|Estado|Genero|  Status|
++---------+--------------------+------+------+--------+
+|      250|Joaquina Vasconcelos|    SC|     F|  Silver|
+|      249|      Joaquim Mieiro|    TO|     M|  Silver|
+|      248|     Joaquim Hurtado|    AP|     M|  Silver|
+|      247|          Joana Ataí|    GO|     F|Platinum|
+|      246|Jandaíra Albuquerque|    SP|     F|  Silver|
+|      245|    Jacinto Dorneles|    MG|     M|  Silver|
+|      244|       Iuri Guterres|    GO|     M|  Silver|
+|      243|       Israel Canela|    RN|     M|  Silver|
+|      242|    Isabel Meirelles|    RO|     F|  Silver|
+|      241|    Irene Villanueva|    AC|     F|  Silver|
+|      240|      Irene Meireles|    MS|     F|  Silver|
+|      239|    Irani Jaguariúna|    AM|     F|  Silver|
+|      238|    Iraci Alcoforado|    MS|     F|  Silver|
+|      237|   Iracema Rodríguez|    BA|     F|    Gold|
+|      236|     Iolanda Rabello|    PB|     F|  Silver|
+|      235|          Inês Neres|    CE|     F|  Silver|
+|      234|        Ingrit Mayor|    SC|     M|  Silver|
+|      233|      Ilduara Chávez|    MT|     F|  Silver|
+|      232|      Ifigénia Pires|    PA|     F|  Silver|
+|      231|    Ifigénia Lustosa|    PE|     F|  Silver|
++---------+--------------------+------+------+--------+
+``` 
+# Melhorando a resposta, ordenando por status
+` clientes_df.select("ClienteId","Cliente","Status").where((Func.col("Status") == "Platinum") |  (Func.col("Status")== "Gold") ).orderBy(Func.col("Status")).show()`
++---------+-------------------+--------+
+|ClienteId|            Cliente|  Status|
++---------+-------------------+--------+
+|       68|      Carminda Dias|    Gold|
+|       10|   Alberto Monsanto|    Gold|
+|      166|   Firmino Meireles|    Gold|
+|      220|Honorina Villaverde|    Gold|
+|      237|  Iracema Rodríguez|    Gold|
+|       83|      Cláudio Jorge|    Gold|
+|       28|      Anna Carvajal|    Gold|
+|      121|    Dionísio Saltão|    Gold|
+|       49|      Bento Quintão|    Gold|
+|        4|   Adriana Guedelha|Platinum|
+|      170|      Flor Vilanova|Platinum|
+|      230|    Ibijara Botelho|Platinum|
+|      247|         Joana Ataí|Platinum|
++---------+-------------------+--------+
+
+# Outra forma, exibindo todos os campos com o coringa "*"
+ `clientes_df.select("*").where((Func.col("Status") == "Platinum") | (Func.col("Status")== "Gold") ).orderBy(Func.col("Status")).show() `
+
+ ```
++---------+-------------------+------+------+--------+
+|ClienteID|            Cliente|Estado|Genero|  Status|
++---------+-------------------+------+------+--------+
+|       68|      Carminda Dias|    AM|     F|    Gold|
+|       10|   Alberto Monsanto|    RN|     M|    Gold|
+|      166|   Firmino Meireles|    AM|     M|    Gold|
+|      220|Honorina Villaverde|    PE|     F|    Gold|
+|      237|  Iracema Rodríguez|    BA|     F|    Gold|
+|       83|      Cláudio Jorge|    TO|     M|    Gold|
+|       28|      Anna Carvajal|    RS|     F|    Gold|
+|      121|    Dionísio Saltão|    PR|     M|    Gold|
+|       49|      Bento Quintão|    SP|     M|    Gold|
+|        4|   Adriana Guedelha|    RO|     F|Platinum|
+|      170|      Flor Vilanova|    CE|     M|Platinum|
+|      230|    Ibijara Botelho|    RR|     F|Platinum|
+|      247|         Joana Ataí|    GO|     F|Platinum|
++---------+-------------------+------+------+--------+
+```
