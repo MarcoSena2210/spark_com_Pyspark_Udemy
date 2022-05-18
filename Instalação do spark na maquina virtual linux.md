@@ -17,17 +17,25 @@ https://ubuntu.com/download/desktop
 
 <code> sudo apt update </code>
 
-<code> sudo apt upgrade </code>
-
-
+<code> sudo apt -y upgrade </code>
 
 ## 4.Instalação do Spark (pré requisito: Java)
 
 `sudo apt install curl mlocate default-jdk -y`
 
 ## 5 Baixando o spark-hadoop
+Copia o liknk da página:  https://www.apache.org/dyn/closer.lua/spark/spark-3.2.1/spark-3.2.1-bin-hadoop3.2.tgz
 
-`wget https://dlcdn.apache.org/spark/spark-3.2.1/spark/spark-3.2.1-bin-hadoop3.2.tgz`
+No ambiente linux, usar o wget para fazer o download digitando o seguinte commando. 
+
+`wget  https://dlcdn.apache.org/spark/spark-3.1.3/spark-3.1.3-bin-hadoop3.2.tgz
+
+ ` 
+
+"Esse não funcionaram"
+https://dlcdn.apache.org/spark/spark-3.2.1/spark-3.2.1-bin-hadoop3.2.tgz
+https://dlcdn.apache.org/spark/spark-3.2.1/spark-3.2.1-bin-hadoop3.2-scala2.13.tgz
+""""""
 
 ## 6.Descompactando o spark compactado.
 
@@ -42,7 +50,6 @@ Para edita:
 `sudo gedit ~/.bashrc`
 
 Depois, incluir no final do arquivo as seguintes linhas:
-
 `export SPARK_HOME=/opt/spark`
 `export PATH=$PATH:$SPARK_HOME/bin:$SPARK_HOME/sbin`
 
@@ -50,16 +57,23 @@ Depois, incluir no final do arquivo as seguintes linhas:
 
 `source -/.bashrc`
 
-## Startando o spack usando a liguagem scala
+## Startando o spack usando a linguagem scala, dessa forma estamos subindouma versão stad aalonedo spark, podendo ser verificada se deu certo, consultando no browse  
 
 `start-master.sh`
 
 CTRL + C ou D  para sair do shell
 
+
+
+
+
+
+
 ## Startando o spack usando a liguagem scala
 `start-shell`
 
 CTRL + C ou D  para sair do shell
+https://dlcdn.apache.org/spark/spark-3.1.3/spark-3.1.3-bin-hadoop3.2.tgz
 
 
 ## Startando o spack usando a liguagem python
