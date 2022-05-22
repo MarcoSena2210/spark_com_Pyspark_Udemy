@@ -1,7 +1,6 @@
 
 # Instalação do spark em máquina Virtual Linux
 
-## 1.Download e Instalação Oracle Virtual Box
 
 
 https://www.virtualbox.org/wiki/Downloads
@@ -24,7 +23,7 @@ https://ubuntu.com/download/desktop
 `sudo apt install curl mlocate default-jdk -y`
 
 ## 5 Baixando o spark-hadoop
-Copia o liknk da página:  https://www.apache.org/dyn/closer.lua/spark/spark-3.2.1/spark-3.2.1-bin-hadoop3.2.tgz
+Copiar o link da página:  https://www.apache.org/dyn/closer.lua/spark/spark-3.2.1/spark-3.2.1-bin-hadoop3.2.tgz
 
 No ambiente linux, usar o wget para fazer o download digitando o seguinte commando. 
 
@@ -53,35 +52,29 @@ Depois, incluir no final do arquivo as seguintes linhas:
 `export SPARK_HOME=/opt/spark`
 `export PATH=$PATH:$SPARK_HOME/bin:$SPARK_HOME/sbin`
 
-## 7.Agora vamos executar um comando para atualizar as variaveis de ambiente sem precisar reiniciar o linux.
+## 7.Agora vamos executar um comando para atualizar as variáveis de ambiente sem precisar reiniciar o linux.
 
 `source -/.bashrc`
 
-## Startando o spack usando a linguagem scala, dessa forma estamos subindouma versão stad aalonedo spark, podendo ser verificada se deu certo, consultando no browse  
+### Startando o spack usando a linguagem scala, dessa forma estamos subindouma versão stad aalonedo spark, podendo ser verificada se deu certo, consultando no browse  
 
 `start-master.sh`
 
 CTRL + C ou D  para sair do shell
 
-
-
-
-
-
-
-## Startando o spack usando a liguagem scala
+### Startando o spack usando a liguagem scala
 `start-shell`
 
 CTRL + C ou D  para sair do shell
 https://dlcdn.apache.org/spark/spark-3.1.3/spark-3.1.3-bin-hadoop3.2.tgz
 
 
-## Startando o spack usando a liguagem python
+### Startando o spack usando a liguagem python
 <code>pyspark </code>
 
 CTRL + C ou D  para sair do shell
 
-## 7.Instalando as bibliotecas que serão usadas no lab
+### 7.Instalando as bibliotecas que serão usadas no lab
 <code>
 sudo apt install python3-pip </code>
 

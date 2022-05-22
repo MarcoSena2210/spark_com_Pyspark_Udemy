@@ -1,51 +1,49 @@
 
-#  SPARK SQL
-
-Material baseado nas aulas do Prof. Fernando Amaral (Udemy 18052022)
-
-### Dica:
-    
+#  SPARK SQL 
     Spark Utiliza o Metastore do Hive
     Não é preciso ter o Hive instalado para usar o Spark
 
-# Tabela: 
-• Persistente
+## Tabela: 
+## Características:
+- Persistente
 
-• Objeto Tabular que reside em um banco
+- Objeto Tabular que reside em um banco
 de dados
 
-• Pode ser gerenciado e consultado
+- Pode ser gerenciado e consultado
 utilizando SQL
 
-• Totalmente interoperável com DataFrame
+- Totalmente interoperável com DataFrame
 
-• Ex: Você pode transformar um DataFrame
+- Ex: Você pode transformar um DataFrame
 que importamos (Parquet, json, orc csv)
 em tabela
+
 
 ```
 TABELA <---> DATAFRAME
 ```
+
 Pode ser trasformado dataframe em tabela e o inverso.
 
+## VIEW
 
-# VIEW
+-  Mesmo conceito de banco de dados relacionais
 
-• Mesmo conceito de banco de dados relacionais
-
-• São um “alias” para uma tabela (por exemplo,
+-  São um “alias” para uma tabela (por exemplo,
 vendas_rs pode mostrar vendas do estado já com
 filtro aplicado)
 
-• Não contém dados
+- Não contém dados
 
 ## As *Views* podem ser:
 
-LOBAIS: VISÍVEIS EM TODAS AS SESSÕES
+- LOBAIS: VISÍVEIS EM TODAS AS SESSÕES
 
-SESSÃO: VISÍVEIS APENAS NA PRÓPRIA SESSÃO
+- SESSÃO: VISÍVEIS APENAS NA PRÓPRIA SESSÃO
 
 ## As tabelas podem ser gerenciadas e não gerenciadas
+
 ### Gerenciadas ou manager: 
   
     Spark gerencia dados e metadados 
@@ -59,20 +57,22 @@ SESSÃO: VISÍVEIS APENAS NA PRÓPRIA SESSÃO
     Se excluirmos, Spark só exclui os metadados, dados permanecem onde estavam
 
 
-# Vamos para prática chamando o pyspark no prompt de comando.
+### Vamos para prática chamando o pyspark no prompt de comando.
 `pyspark` 
 
 
+### Importando as bibliotecas
 
-# Importando as bibliotecas
+`from pyspark.sql import SparkSession`
+`from pyspark.sql.types import *`
 
->>> `from pyspark.sql import SparkSession`
->>> `from pyspark.sql.types import *`
+### mostrar bancos de dados e tabelas
+`spark.sql("show databases").show()`
 
-# mostrar bancos de dados e tabelas
->>> `spark.sql("show databases").show()`
 
 ``` 
+Output
+
 22/05/18 13:10:27 WARN HiveConf: HiveConf of name hive.stats.jdbc.timeout does n                                                                                        ot exist
 22/05/18 13:10:27 WARN HiveConf: HiveConf of name hive.stats.retries.wait does n                                                                                        ot exist
 22/05/18 13:10:45 WARN ObjectStore: Version information not found in metastore.                                                                                         hive.metastore.schema.verification is not enabled so recording the schema versio                                                                                        n 2.3.0
@@ -86,18 +86,26 @@ SESSÃO: VISÍVEIS APENAS NA PRÓPRIA SESSÃO
 ```
 
 
-### criar banco de dados desp que representa os despachantes
-spark.sql("create database desp")
+### Criar banco de dados desp que representa os despachantes.
 
->>> `spark.sql("create database desp")`
+`spark.sql("create database desp")`
 
 ``` 
+Output
+
 22/05/18 13:16:19 WARN ObjectStore: Failed to get database global_temp, returning NoSuchObjectException
 22/05/18 13:16:19 WARN ObjectStore: Failed to get database desp, returning NoSuchObjectException
 DataFrame[]
+``` 
 
-*Obs:Embora tenha dado um WARN, o banco foi criado
->>> spark.sql("show databases").show()
+⚠ Dica: 
+
+Embora tenha dado um WARN, o banco foi criado.
+
+`spark.sql("show databases").show()`
+
+``` 
+Output
 +---------+
 |namespace|
 +---------+
@@ -106,32 +114,32 @@ DataFrame[]
 +---------+
 ``` 
 
-### Vamos informar para o banco qual a database iremostrabalhar. 
+### Vamos informar para o banco qual a database iremos trabalhar. 
 `spark.sql("use desp").show()`
 
 ``` 
->>> spark.sql("use desp").show()
+Output
 ++
 ||
 ++
 ++
-
->>>
 ``` 
 
 ### Agora vamos criar uma tabela gerenciada a partir do dataframe despachante.
 
 `arqschema = "id INT, nome STRING, status STRING, cidade STRING, vendas INT, data STRING" `
 
-## Dica: Vamos lê o arquivo e transformar em um dataframe.Se você for reproduzir, lembre de trocar a pasta para o seu user.No meca caso "sena"  
+### ⚠ Dica: 
 
-despachantes = spark.read.csv("/home/sena/download/despachantes.csv", header=False, schema=arqschema)
+ Vamos lê o arquivo e transformar em um dataframe.Se você for reproduzir, lembre de trocar a pasta para o seu user.No meca caso "sena"  
 
->>>` despachantes = spark.read.csv("/home/sena/download/despachantes.csv", header=False, schema=arqschema)`
+` despachantes = spark.read.csv("/home/sena/download/despachantes.csv", header=False, schema=arqschema)`
 
->>> `despachantes.show()`
+### Listando
+`despachantes.show()`
 
 ``` 
+Output
 +---+-------------------+------+-------------+------+----------+
 | id|               nome|status|       cidade|vendas|      data|
 +---+-------------------+------+-------------+------+----------+
@@ -151,14 +159,18 @@ despachantes = spark.read.csv("/home/sena/download/despachantes.csv", header=Fal
 
 ### Agora vamos transformar em uma tabela no banco de dados.Conforme abaixo, entre os parentese devemos colocar o nome da tabela no banco de dados.
 
-# Dica: Se não tivessemos criado o banco e indicado seu uso com o comando "use desp"  , seria criado no banco default,  
+⚠ Dica: 
+
+Se não tivessemos criado o banco e indicado o seu uso com o comando "use desp", seria criado no banco default,  
 
 `despachantes.write.saveAsTable("Despachantes")`
 
-### *Criando a tabela
+### Criando a tabela
 
->>>`despachantes.write.saveAsTable("Despachantes")`
+`despachantes.write.saveAsTable("Despachantes")`
+
 ``` 
+Output
 22/05/18 13:31:46 WARN SessionState: METASTORE_FILTER_HOOK will be ignored, since hive.security.authorization.manager is set to instance of HiveAuthorizerFactory.
 22/05/18 13:31:47 WARN HiveConf: HiveConf of name hive.internal.ss.authz.settings.applied.marker does not exist
 22/05/18 13:31:47 WARN HiveConf: HiveConf of name hive.stats.jdbc.timeout does not exist
@@ -167,10 +179,11 @@ despachantes = spark.read.csv("/home/sena/download/despachantes.csv", header=Fal
 ``` 
 
 ### Verificando que a tabela existe, listando os registros...
-spark.sql("select * from despachantes").show()
 
->>>` spark.sql("select * from despachantes").show()`
+` spark.sql("select * from despachantes").show()`
+
 ``` 
+Output
 +---+-------------------+------+-------------+------+----------+
 | id|               nome|status|       cidade|vendas|      data|
 +---+-------------------+------+-------------+------+----------+
@@ -188,10 +201,11 @@ spark.sql("select * from despachantes").show()
 
 ``` 
 
-# Exibindo as tabelas do banco aberto 
+### Exibindo as tabelas do banco aberto 
 `spark.sql("show tables").show()`
 
 ``` 
+Output
 +--------+------------+-----------+
 |database|   tableName|isTemporary|
 +--------+------------+-----------+
@@ -199,22 +213,20 @@ spark.sql("select * from despachantes").show()
 +--------+------------+-----------+
 ``` 
 
-# Vamos mudar o banco de dados para o default, e repetir a consulta.  
+### Vamos mudar o banco de dados para o default, e repetir a consulta.  
 `spark.sql("use default").show()`
 
-``` 
+```
+Output  
 ++
 ||
 ++
 ++
->>>
 ``` 
-
-
-# executa novamente e mostrar que da erro
+### Executar novamente e mostrar que da erro
 `spark.sql("select * from despachantes").show()`
-
 ``` 
+Output
 Traceback (most recent call last):
   File "<stdin>", line 1, in <module>
   File "/opt/spark/python/pyspark/sql/session.py", line 723, in sql
@@ -229,12 +241,14 @@ pyspark.sql.utils.AnalysisException: Table or view not found: despachantes; line
 >>>
 ``` 
 
-## Dica observamos que foi gerado um erro, pois não existe a tabela despachante no banco default 
+## ⚠ Dica: 
+Observamos que foi gerado um erro no procedimento acima, pois não existe a tabela despachante no banco default. 
 
-# voltar ao nosso banco de dados
+# Voltar ao nosso banco de dados
 `spark.sql("use desp").show()`
 
-``` 
+```
+Output 
 ++
 ||
 ++
@@ -252,15 +266,18 @@ pyspark.sql.utils.AnalysisException: Table or view not found: despachantes; line
 ## overwrite e append
 `despachantes.write.mode("overwrite").saveAsTable("Despachantes")`
 
-## Dica: Se sairmos da sessão agora o dataframe será apagado.E quanto a tabela o que acontecerá?
+## ⚠ ⚠ Dica: : : Se sairmos da sessão agora o dataframe será apagado.E quanto a tabela o que acontecerá?
+
 Vamos sair com o ctrl +d (fechar a sessão pyspark)
 
 sena@sena-VirtualBox:~$
 
-# Entrar no pyspark novamente e verificar 
+### Entrar no pyspark novamente e verificar 
 sena@sena-VirtualBox:~$ `pyspark`
 
+
 ``` 
+Output
 Python 3.10.4 (main, Apr  2 2022, 09:04:19) [GCC 11.2.0] on linux
 Type "help", "copyright", "credits" or "license" for more information.
 22/05/18 17:27:28 WARN Utils: Your hostname, sena-VirtualBox resolves to a loopback address: 127.0.1.1; using 10.0.2.15 instead (on interface enp0s3)
@@ -288,21 +305,24 @@ SparkSession available as 'spark'.
 >>>
 ``` 
 
-# Verificando o dataframe 
+### Verificando o dataframe 
 `despachantes.show()`
 
-``` 
+```
+output 
 Traceback (most recent call last):
   File "<stdin>", line 1, in <module>
 NameError: name 'despachantes' is not defined
 >>>
 ``` 
 
-# Dica: Não existe
-# habilitando o uso do banco desp = despachantes
+## ⚠ Dica: Não existe o banco no database default
+
+### Habilitando o uso do banco desp = despachantes
 `spark.sql("use desp").show()`
 
 ``` 
+Output
 22/05/18 17:30:40 WARN HiveConf: HiveConf of name hive.stats.jdbc.timeout does not exist
 22/05/18 17:30:40 WARN HiveConf: HiveConf of name hive.stats.retries.wait does not exist
 22/05/18 17:30:49 WARN ObjectStore: Version information not found in metastore. hive.metastore.schema.verification is not enabled so recording the schema version 2.3.0
@@ -314,11 +334,12 @@ NameError: name 'despachantes' is not defined
 ++
 ```  
 
-# Verificando se a tabela ainda existe
+### Verificando se a tabela ainda existe
 
 `spark.sql("select * from despachantes").show()` 
 
-``` 
+```
+Output 
 +---+-------------------+------+-------------+------+----------+
 | id|               nome|status|       cidade|vendas|      data|
 +---+-------------------+------+-------------+------+----------+
@@ -337,9 +358,10 @@ NameError: name 'despachantes' is not defined
 >>>
 ``` 
 
-## Dica: 
-Concluimos que a tabela foi persistida, mesmo após o fechamento da sessão a tabela permanece e o dataframe não.
-Essa tabela é gerenciada.Se apagarmos com o drop table ela e seus metadados serão apagados.
+# ⚠ Dica: 
+
+## Concluimos que a tabela foi persistida, mesmo após o fechamento da sessão a tabela permanece e o dataframe não.
+## Essa tabela é gerenciada.Se apagarmos com o drop table ela e seus metadados serão apagados.
 
 
 Como perdemos o dataframe, se dermos um comando para ler a tabela é retornado um "dataframe'.
@@ -350,6 +372,7 @@ Como perdemos o dataframe, se dermos um comando para ler a tabela é retornado u
 `despachantes.show()`
 
 ```
+Output
 +---+-------------------+------+-------------+------+----------+
 | id|               nome|status|       cidade|vendas|      data|
 +---+-------------------+------+-------------+------+----------+
@@ -367,12 +390,14 @@ Como perdemos o dataframe, se dermos um comando para ler a tabela é retornado u
 
 ```
 
-### Agora vamos criar uma tabela Não gerenciada.
-## Lembrando que tabela externa ou não gerenciada, se trata de um arquivo em disco que o spark pode gerencia-lo.
+## Agora vamos criar uma tabela Não gerenciada.
 
-## salvamos novamente no formato parquet, em outro diretorio
+### Lembrando que tabela externa ou não gerenciada, se trata de um arquivo em disco que o spark pode gerencia-lo.
+
+### salvamos novamente no formato parquet, em outro diretorio
 `despachantes.write.format("parquet").save("/home/sena/desparquet")`
 
+⚠ Dica: 
 
 Basicamente para criar uma tabela não gerenciada o que muda é <b>informar o caminho</b>. Quando você informa o caminho o spark já entende que se trata de um alias para uma tabela externa ou não gerenciada
 
@@ -380,12 +405,16 @@ Basicamente para criar uma tabela não gerenciada o que muda é <b>informar o ca
 
 
 
-### como saber se uma tabela é gerenciada ou não?
-# Dica: Usando o create, podemos observar que despachantes não mostra o caminho.Ele traz o comando de criação da tabela.
+## Como saber se uma tabela é gerenciada ou não?
+
+## ⚠ Dica: 
+
+ Usando o create, podemos observar que despachantes não mostra o caminho.Ele traz o comando de criação da tabela.
 
 ``spark.sql("show create table Despachantes").show(truncate=False)`
 
 ```
+Output
 +-------------------------------------------------------------------------------------------------------------------------------------------------------+
 |createtab_stmt                                                                                                                                         |
 +-------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -403,7 +432,8 @@ USING parquet
 ```
 
 
-# Agora vamos vê a tabela externa despachantes_ng nos mostra! indicando que é não gerenciada
+### Agora vamos vê que a tabela externa despachantes_ng nos mostra! Indica que é não gerenciada.
+
 `spark.sql("show create table Despachantes_ng").show(truncate=False)`
 
 ```
@@ -421,22 +451,20 @@ USING parquet
 LOCATION 'file:/home/sena/desparquet'
 |
 +------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-
->>>
 ```
-## Dica: Observe que temos o location (o caminho).O que significa que é uma tabela não gerenciada ou externa
+## ⚠ Dica: 
+Observe que temos o location (o caminho). O que significa que é uma tabela não gerenciada ou externa
 
-
-
-#outra forma:
+### Outra forma  de verifiar é:
 `spark.catalog.listTables()`
+
 ``` 
+Output
+
 [Table(name='despachantes', database='desp', description=None, tableType='MANAGED', isTemporary=False),
  Table(name='despachantes_ng', database='desp', description=None, tableType='EXTERNAL', isTemporary=False)]
->>>
 ```
 
-
-# Mas onde está a tabela gerenciada?
-## Em /home/sena/spark-warehouse/desp.db/
+### Mas onde está a tabela gerenciada?
+### Em /home/sena/spark-warehouse/desp.db/
 /home/sena/spark-warehouse/desp.db/despachantes

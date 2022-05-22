@@ -1,20 +1,82 @@
 # spark_com_Pyspark_Udemy
-Curso Formação Spark com Pyspark 
 
+Curso Formação Spark com Pyspark 
 - Nome: Marco Antonio de Sena Campos
 - Instituição: Udemy
 - Curso: Formação Spark com Pyspark(2022)
 - Professor: Fernando Amaral
 
-Linkedin: 
-Git     :
+Meus contatos: 
+Linkedin: https://www.linkedin.com/in/marco-sena-b5558526/
+Git     : https://github.com/MarcoSena2210/
 
 
-#1 Crie uma consulta que mostre, nesta ordem, Cliente, Estados e Status
-clientes.select("Cliente","Estado","Status").show()
+Material baseado no curso - 18052022)
 
-#2 Crie uma consulta que mostre apenas os clientes do Status “platinum” e “gold”
-clientes.select("*").where( (Func.col("Status") == "Gold") | (Func.col("Status") == "Platinum") ).show()
+Neste curso prático, você vai começar do zero e aprender as principais características spark. Entre outras vamos:
 
-#3 Demostre quanto cada Status de Clientes representa em vendas?
-vendas.join(clientes,vendas.ClienteID ==clientes.ClienteID ).groupBy(clientes.Status).agg(sum("Total")).orderBy(Func.col("sum(Total)").desc())
+- Aprender a instalar e configurar o Spark
+
+- Conhecer o principal objeto de dados: DataFrames do Spark
+
+- Processar DataFrames através de transformações e ações
+
+- Consultar Dados no Spark com Sintaxe SQL
+
+- Criar Views e fazer Joins
+
+- Persistir dados em disco, criando tabelas em formatos como Parquet e ORC
+
+- Importar dados de fontes como Mongodb, PostgreSQL e arquivos como Json e Parquet
+
+- Criar aplicações que você pode rodar na linha de comendo
+
+- Machine Learning com Spark: crie modelos e faça previsões
+
+- Construir Pipelines de Marchine Learning
+
+- Processar dados em tempo real com Spark Structured Streaming
+
+- Otimizar o Spark com Cache, Persistência, Particionamento e Bucketing
+
+- Usar Spark com Jupyter Notebooks
+
+- Use Spark com Pandas e outras bibliotecas do Python
+
+- Construa um Cluster!
+
+Você ainda vai encontrar material do curso para baixar: scripts, slides e dados de exemplo.
+
+# Aprendizado
+- Conhecer a Arquitetura e Detalhes do Spark
+- Criação de DataFrames
+- SparkSQL: Crie tabelas e consulta utilizando SQL
+- Conecte com outras fontes de Dados, como Postgres e MongoDB
+- Cria Aplicações Spark
+- Desenvolva modelos preditivos Utilizado Machine Learnig e Spark ML
+- Cria aplicações próximas ao tempo real com Spark Streaming
+- Conheça Técnicas de Otimização do Spark
+- Aprenda a Construir um Cluster com Spark!
+
+## Tópicos 
+[PRÉ-REQUISITOS:]()
+
+- [Instalar o Virtual Box](https://www.virtualbox.org/wiki/Downloads)
+
+- [Instalar o Linux no Virtual Box]()
+
+- [Instalar o Spark no Linux](https://github.com/MarcoSena2210/spark_com_Pyspark_Udemy/blob/main/Criação%20do%20ambiente%20Linux%20no%20Virtual%20Box.md)
+
+[AULAS-Exemplos:]()
+
+- [RDD-Ações e transformações](rdd_acoes_transformacoes.md)
+- [Dataframes](dataframes.md)
+- [spark Sql](spark-SQL.md)
+- [spark View](spark-VIEW.md)
+- []()
+
+[DESAFIOS:]()
+
+- [Desafio 1](Desafio 1-Dados de varejo.md)
+- [Desafio 2](Desafio 2-Banco de dados e persistência.md)
+- [Desafio 2](Desafio 2-Banco de dados e persistência.md)

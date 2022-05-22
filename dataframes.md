@@ -1,65 +1,71 @@
 # Dataframes
 
-## Características:
+### Características:
 
-•Tabelas com linhas e colunas 
-•Imutáveis
-•Com schema conhecido
-•Linhagem preservada-Preserva as etapas de tranformação do dataframe. 
-•Colunas podem ter tipos diferentes
-•Existem análises comuns: Agrupar, ordenar, filtrar
-•Spark pode otimizar estas analises através de planos de execução.Semelhante ao que acontece no banco de dados.
+- Tabelas com linhas e colunas 
+- Imutáveis
+- Com schema conhecido
+- Linhagem preservada-Preserva as etapas de tranformação do dataframe. 
+- Colunas podem ter tipos diferentes
+- Existem análises comuns: Agrupar, ordenar, filtrar
+- Spark pode otimizar estas analises através de planos de execução.Semelhante ao que acontece no banco de dados.
 
-##   Tipos de dados 
-ByteType
-ShortType
-IntegerType
-LongType
-FloatType
-DoubleType
-DecimalType
-StringType
-BinaryType
-BooleanType
-TimestampType
-DateType
-ArrayType
-MapType
-StructType
-StructField
+###   Tipos de dados 
+- ByteType
+- ShortType
+- IntegerType
+- LongType
+- FloatType
+- DoubleType
+- DecimalType
+- StringType
+- BinaryType
+- BooleanType
+- TimestampType
+- DateType
+- ArrayType
+- MapType
+- StructType
+- StructField
 
-## Schema 
+### Schema 
 Você pode deixar para o Spark inferir a partir de
 parte dos dados ou Você pode definir o schema
 
-⚠ Dica: Definir tem vantagens:
+⚠ Dica: 
+
+Definir tem vantagens:
 • Tipo correto
+
 • Sem overhead
 
 Quando o spark tenta descobrir leva um tempo de processamento a mais.
 
-## Lazy
-Evaluation
-
-O processamento de transformação de fato só ocorre quando há uma Ação: Lazy
-Evaluation
+⚠ Dica: O processamento de transformação de fato só ocorre quando há uma 
+#### Ação: Lazy  Evaluation
 
 
-# criar um data frame simples, sem schema
+### Criar um data frame simples, sem schema
+
 `from pyspark.sql import SparkSession
  `
 
-⚠ Dica: Podemos definir o schema e os valores.Inicialmente iremos definir apenas os valores.Os 2 ficaram entre cochetes "[]".Para exibir precisamos chamaro dataframe.show()
+⚠ Dica: Podemos definir o schema e os valores.
 
-# Criar um dataframe simples, sem schema
->`from pyspark.sql import SparkSession`
+Inicialmente iremos definir apenas os valores.
 
->`df1 = spark.createDataFrame([("Pedro",10),("Maria",20),("José",40)]) `
+Os 2 ficaram entre cochetes "[]".Para exibir precisamos chamar o dataframe.show()
 
-# Show é ação, então tudo o que foi feito anteriormente é executado, lazzy
-> `df1.show()`
+### Criar um dataframe simples, sem schema
+`from pyspark.sql import SparkSession`
+
+`df1 = spark.createDataFrame([("Pedro",10),("Maria",20),("José",40)]) `
+
+### Show é ação, então tudo o que foi feito anteriormente é executado, lazy
+`df1.show()`
 
 ```
+output
 +-----+---+
 |   _1| _2|
 +-----+---+
@@ -69,20 +75,22 @@ Evaluation
 +-----+---+
 ```
 
-Dica: Observamos que foi nomeado as colunas com _1 e _2 e foi feito a inferência de tipo.
+
+⚠ Dica: Observamos que foi nomeado as colunas com _1 e _2 automaticamente por inferência de tipo.
 
 Agora vamos criar um dataframe informando o schema.
 
-#criar df com schema
-> `schema = "Id INT, Nome STRING"`
+### Criar df com schema
+`schema = "Id INT, Nome STRING"`
 
-> `dados = [[1,"Pedro"],[2,"Maria"]]` 
+`dados = [[1,"Pedro"],[2,"Maria"]]` 
 
-> `df2 = spark.createDataFrame(dados, schema)`
+`df2 = spark.createDataFrame(dados, schema)`
 
-> `df2.show()`
+`df2.show()`
 
 ``` 
+output
 +---+-----+
 | Id| Nome|
 +---+-----+
@@ -91,18 +99,22 @@ Agora vamos criar um dataframe informando o schema.
 +---+-----+
 ``` 
 Vamos importar outra biblioteca de agragação sum.
+
 ## Com transformação
 ### Biblioteca de agregação
->`from pyspark.sql.functions import sum `
+`from pyspark.sql.functions import sum `
 ### Atribuindo os valores do schema e devendas
-> `schema2 = "Produtos STRING, Vendas INT" `
-> `vendas = [["Caneta",10],["Lápis",20],["Caneta",40]] `
+`schema2 = "Produtos STRING, Vendas INT" `
+`vendas = [["Caneta",10],["Lápis",20],["Caneta",40]] `
+
 ### Criando o dataframe inferindo o schema
-> `df3 = spark.createDataFrame(vendas , schema2 )` 
+`df3 = spark.createDataFrame(vendas , schema2 )` 
+
 ### Exibindoo resultado.
 > `df3.show()`
 
 ```
+output
 +--------+------+
 |Produtos|Vendas|
 +--------+------+
@@ -111,11 +123,12 @@ Vamos importar outra biblioteca de agragação sum.
 |  Caneta|    40|
 +--------+------+
 ```
-> `agrupado = df3.groupBy("Produtos").agg(sum("Vendas")) `
+`agrupado = df3.groupBy("Produtos").agg(sum("Vendas")) `
 
-> `agrupado.show()`
+`agrupado.show()`
 
 ```
+output
 +--------+-----------+
 |Produtos|sum(Vendas)|
 +--------+-----------+
@@ -124,9 +137,10 @@ Vamos importar outra biblioteca de agragação sum.
 +--------+-----------+
 ```
 ### Podemos contatenar as operações, neste caso sem persitir
->` df3.groupBy("Produtos").agg(sum("Vendas")).show()`
+` df3.groupBy("Produtos").agg(sum("Vendas")).show()`
 
 ```
+output
 +--------+-----------+
 |Produtos|sum(Vendas)|
 +--------+-----------+
@@ -138,6 +152,7 @@ Vamos importar outra biblioteca de agragação sum.
 ### Selecionar colunas específicas
 `df3.select("Produtos").show()`
 ```
+output
 +--------+
 |Produtos|
 +--------+
@@ -149,6 +164,7 @@ Vamos importar outra biblioteca de agragação sum.
 
  `df3.select("Produtos","Vendas").show()`
 ```
+output
 +--------+------+
 |Produtos|Vendas|
 +--------+------+
@@ -160,12 +176,12 @@ Vamos importar outra biblioteca de agragação sum.
 
 ### Expressões e select
 
-
 `from pyspark.sql.functions import expr` 
 
 `df3.select("Produtos", "Vendas", expr("Vendas * 0.2")).show()`
 
 ```
+output
 +--------+------+--------------+
 |Produtos|Vendas|(Vendas * 0.2)|
 +--------+------+--------------+
@@ -179,26 +195,32 @@ Vamos importar outra biblioteca de agragação sum.
 `df3.schema`
 
 ```
+output
 StructType(List(StructField(Produtos,StringType,true),StructField(Vendas,IntegerType,true)))
 ```
 
 ### Ver colunas
 `df3.columns`
+```
+output
 ['Produtos', 'Vendas']
+```
 
 ### Importar dados definindo schema
-### Vamos deixar a data como string de propósito
+### Vamos deixar a data como string de propósito.
 `from pyspark.sql.types import *`
 
 `arqschema = "id INT, nome STRING, status STRING, cidade STRING, vendas INT, data STRING" `
 
-### O caminho pode mudar, download é a pasta que você baixou com dados de exemplo.No nosso caso "/home/sena/download/"
+⚠ Dica: O caminho pode mudar, download é a pasta que estão os dados nesse de exemplo.
+No nosso caso "/home/sena/download/"
 
 `despachantes = spark.read.csv("/home/sena/download/despachantes.csv", header=False, schema=arqschema) `
 
 `despachantes.show()`
 
 ```
+output
 +---+-------------------+------+-------------+------+----------+
 | id|               nome|status|       cidade|vendas|      data|
 +---+-------------------+------+-------------+------+----------+
@@ -222,6 +244,7 @@ StructType(List(StructField(Produtos,StringType,true),StructField(Vendas,Integer
 `desp_autoschema.show()`
 
 ```
+output
 +---+-------------------+-----+-------------+---+----------+
 |_c0|                _c1|  _c2|          _c3|_c4|       _c5|
 +---+-------------------+-----+-------------+---+----------+
@@ -239,9 +262,10 @@ StructType(List(StructField(Produtos,StringType,true),StructField(Vendas,Integer
 
 ```
 ### O collect() retorna uma lista de dados 
->`despachantes.collect()`
+`despachantes.collect()`
 
 ```
+output
 [Row(id=1, nome='Carminda Pestana', status='Ativo', cidade='Santa Maria', vendas=23, data='2020-08-11'), Row(id=2, nome='Deolinda Vilela', status='Ativo', cidade='Novo Hamburgo', vendas=34, data='2020-03-05'), Row(id=3, nome='Emídio Dornelles', status='Ativo', cidade='Porto Alegre', vendas=34, data='2020-02-05'), Row(id=4, nome='Felisbela Dornelles', status='Ativo', cidade='Porto Alegre', vendas=36, data='2020-02-05'), Row(id=5, nome='Graça Ornellas', status='Ativo', cidade='Porto Alegre', vendas=12, data='2020-02-05'), Row(id=6, nome='Matilde Rebouças', status='Ativo', cidade='Porto Alegre', vendas=22, data='2019-01-05'), Row(id=7, nome='Noêmia   Orriça', status='Ativo', cidade='Santa Maria', vendas=45, data='2019-10-05'), Row(id=8, nome='Roque Vásquez', status='Ativo', cidade='Porto Alegre', vendas=65, data='2020-03-05'), Row(id=9, nome='Uriel Queiroz', status='Ativo', cidade='Porto Alegre', vendas=54, data='2018-05-05'), Row(id=10, nome='Viviana Sequeira', status='Ativo', cidade='Porto Alegre', vendas=0, data='2020-09-05')]
 ```
 
@@ -249,15 +273,17 @@ StructType(List(StructField(Produtos,StringType,true),StructField(Vendas,Integer
 `desp_autoschema.schema`
 
 ```
+output
 StructType(List(StructField(_c0,IntegerType,true),StructField(_c1,StringType,true),StructField(_c2,StringType,true),StructField(_c3,StringType,true),StructField(_c4,IntegerType,true),StructField(_c5,StringType,true)))
 ```
 
 `despachantes.schema`
 
 ```
+output
 StructType(List(StructField(id,IntegerType,true),StructField(nome,StringType,true),StructField(status,StringType,true),StructField(cidade,StringType,true),StructField(vendas,IntegerType,true),StructField(data,StringType,true)))
 ```
-## Au2.4
+## Aula 2.4
 ### Importando a biblioteca functions 
 `from pyspark.sql import functions as Func `
 
@@ -265,6 +291,7 @@ StructType(List(StructField(id,IntegerType,true),StructField(nome,StringType,tru
 `despachantes.select("id","nome","vendas").where(Func.col("vendas") > 20).show()` 
 
 ```
+output
 +---+-------------------+------+
 | id|               nome|vendas|
 +---+-------------------+------+
@@ -278,13 +305,16 @@ StructType(List(StructField(id,IntegerType,true),StructField(nome,StringType,tru
 |  9|      Uriel Queiroz|    54|
 +---+-------------------+------+
 ```
+## ⚠ Dica: IMPORTANTE!!! 
+### & é usado para and,
+### | é usado para or, 
+### ~ é usado para not
 
-### Dica: IMPORTANTE!!! 
-### & para and, | para or, e ~ para not
 Exemplo:
 `despachantes.select("id","nome","vendas").where((Func.col("vendas") > 20) & (Func.col("vendas") < 40)).show()`
 
 ```
+output
 +---+-------------------+------+
 | id|               nome|vendas|
 +---+-------------------+------+
@@ -296,7 +326,7 @@ Exemplo:
 +---+-------------------+------+
 ```
 
-### renomear coluna
+### Renomear coluna
 `novodf = despachantes.withColumnRenamed("nome","nomes")`
 
 `novodf.columns`
@@ -305,19 +335,21 @@ Exemplo:
 
 `from pyspark.sql.functions import * `
 
-### coluna data está como string, vamos transformar em timestamp
+### Coluna data está como string, vamos transformar em timestamp
 
 ` despachantes2 = despachantes.withColumn("data2", to_timestamp(Func.col("data"),"yyyy-MM-dd")) `
 
 `despachantes2.schema `
 ``` 
+output
 StructType(List(StructField(id,IntegerType,true),StructField(nome,StringType,true),StructField(status,StringType,true),StructField(cidade,StringType,true),StructField(vendas,IntegerType,true),StructField(data,StringType,true),StructField(data2,TimestampType,true)))
 ``` 
 
-### operações sobre datas
+### Operações sobre datas
 `despachantes2.select(year("data")).show()`
 
 ```
+output
 +----------+
 |year(data)|
 +----------+
@@ -337,6 +369,7 @@ StructType(List(StructField(id,IntegerType,true),StructField(nome,StringType,tru
 `despachantes2.select(year("data")).distinct().show()`
 
 ```
+output  
 +----------+
 |year(data)|
 +----------+
@@ -349,6 +382,7 @@ StructType(List(StructField(id,IntegerType,true),StructField(nome,StringType,tru
 `despachantes2.select("nome",year("data")).orderBy("nome").show()`
 
 ```
+output
 +-------------------+----------+
 |               nome|year(data)|
 +-------------------+----------+
@@ -368,6 +402,7 @@ StructType(List(StructField(id,IntegerType,true),StructField(nome,StringType,tru
 `despachantes2.select("data").groupBy(year("data")).count().show()`
 
 ```
+output
 +----------+-----+
 |year(data)|count|
 +----------+-----+
@@ -380,6 +415,7 @@ StructType(List(StructField(id,IntegerType,true),StructField(nome,StringType,tru
  `despachantes2.select(Func.sum("vendas")).show()`
 
 ```
+output
 +-----------+
 |sum(vendas)|
 +-----------+
@@ -387,7 +423,7 @@ StructType(List(StructField(id,IntegerType,true),StructField(nome,StringType,tru
 +-----------+
 ``` 
 
-###salvar, são diretórios (26)
+### Salvar em vários formatos.São diretórios 
 `despachantes.write.format("parquet").save("/home/sena/dfimportparquet")`
 
 `despachantes.write.format("csv").save("/home/sena/dfimportcsv")`
@@ -455,13 +491,15 @@ SyntaxError: invalid syntax
 SyntaxError: invalid syntax
  `or.schema()` 
 
-
-# Foi renomeiado os arquivos para os nomes que estava sendo lido.Dessa forma deu certo
+## ⚠ Dica: Solução:
+ Foi renomeiado os arquivos para os nomes que estava sendo lido.Dessa forma deu certo
 
  par = spark.read.format("parquet").load("/home/sena/dfimportparquet/despachantes.parquet")
 
->>> par.show()
+`par.show()`
+
 ```
+output
 +---+-------------------+------+-------------+------+----------+
 | id|               nome|status|       cidade|vendas|      data|
 +---+-------------------+------+-------------+------+----------+
@@ -478,22 +516,26 @@ SyntaxError: invalid syntax
 +---+-------------------+------+-------------+------+----------+
 
 ```
-
-> `par.schema`
+`par.schema`
 ```
+output
+
 StructType(List(StructField(id,IntegerType,true),StructField(nome,StringType,true),StructField(status,StringType,true),StructField(cidade,StringType,true),StructField(vendas,IntegerType,true),StructField(data,StringType,true)))
 
 ``` 
 
-# Importando clientes no formato parquet
+### Importando clientes no formato parquet
 
 `clientes_df =  spark.read.format("parquet").load("/home/sena/download/Atividades/Clientes.parquet")`
 
 
 `from pyspark.sql import functions as Func`
 
-# Mostrando apenas os campos Cliente,Estado e Status 
- clientes_df.select("Cliente","Estado","Status").show()
+### Mostrando apenas os campos Cliente,Estado e Status 
+
+`clientes_df.select("Cliente","Estado","Status").show()`
+```
+output 
 +--------------------+------+--------+
 |             Cliente|Estado|  Status|
 +--------------------+------+--------+
@@ -518,14 +560,16 @@ StructType(List(StructField(id,IntegerType,true),StructField(nome,StringType,tru
 |     Amadeu Martinho|    RN|  Silver|
 |      Amélia Estévez|    PE|  Silver|
 +--------------------+------+--------+
+```
 
-# Clientes em order descrecente por varios campos
+### Clientes em order descrecente por varios campos
 
 `clie_order_desc =  clientes_df.orderBy(  Func.col("Cliente").desc(), Func.col("Estado").desc(), Func.col("Status").desc() ) `
 
 `clie_order_desc.show()`
 
 ```
+output
 +---------+--------------------+------+------+--------+
 |ClienteID|             Cliente|Estado|Genero|  Status|
 +---------+--------------------+------+------+--------+
@@ -551,12 +595,15 @@ StructType(List(StructField(id,IntegerType,true),StructField(nome,StringType,tru
 |      231|    Ifigénia Lustosa|    PE|     F|  Silver|
 +---------+--------------------+------+------+--------+
 ```
-# Ordenando cliente em order decrescente de ID
+
+### Ordenando cliente em order decrescente de ID
+
 `clie_orderID_desc = clientes_df.orderBy(  Func.col("ClienteID").desc() ) `
 
 ` clie_orderID_desc.show() `
 
 ```
+output
 +---------+--------------------+------+------+--------+
 |ClienteID|             Cliente|Estado|Genero|  Status|
 +---------+--------------------+------+------+--------+
@@ -582,8 +629,12 @@ StructType(List(StructField(id,IntegerType,true),StructField(nome,StringType,tru
 |      231|    Ifigénia Lustosa|    PE|     F|  Silver|
 +---------+--------------------+------+------+--------+
 ``` 
-# Melhorando a resposta, ordenando por status
+
+### Melhorando a resposta, ordenando por status
+
 ` clientes_df.select("ClienteId","Cliente","Status").where((Func.col("Status") == "Platinum") |  (Func.col("Status")== "Gold") ).orderBy(Func.col("Status")).show()`
+```
+output
 +---------+-------------------+--------+
 |ClienteId|            Cliente|  Status|
 +---------+-------------------+--------+
@@ -601,11 +652,14 @@ StructType(List(StructField(id,IntegerType,true),StructField(nome,StringType,tru
 |      230|    Ibijara Botelho|Platinum|
 |      247|         Joana Ataí|Platinum|
 +---------+-------------------+--------+
+```
 
-# Outra forma, exibindo todos os campos com o coringa "*"
+### Outra forma, exibindo todos os campos com o coringa "*"
+
  `clientes_df.select("*").where((Func.col("Status") == "Platinum") | (Func.col("Status")== "Gold") ).orderBy(Func.col("Status")).show() `
 
  ```
+ Output
 +---------+-------------------+------+------+--------+
 |ClienteID|            Cliente|Estado|Genero|  Status|
 +---------+-------------------+------+------+--------+

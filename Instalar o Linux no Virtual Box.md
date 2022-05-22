@@ -1,38 +1,39 @@
 
-Criação do ambiente Linux no Virtual box
-Na página inicial do virtual box
+# Instalar o Linux no Virtual box
 
-1. Cricar no botão "novo", informar o nome de "spark",no campo tipo selecionar linux e versão Ubuntu (64 bits) e cricar no notão próximo.
+## Na página inicial do virtual box
+
+### 1. Cricar no botão "novo", informar o nome de "spark",no campo tipo selecionar linux e versão Ubuntu (64 bits) e cricar no notão próximo.
 
 ![Ambiente linux](image/ambiente_virtualbox_linux_1.png)
 
-2. Informe o tamnho da memória,vamos colocar 6080.Cricar em próximo
+### 2. Informe o tamanho da memória, vamos colocar 6080.Cricar em próximo
 ![Ambiente linux](image/ambiente_virtualbox_linux_2.png)
 
-3. Criar o disco virtual, deixar a opção padrão.
+### 3. Criar o disco virtual, deixar a opção padrão.
 Marcar criar um novo disco rigido virtual agora e cricar em criar
 
 ![Ambiente linux](image/ambiente_virtualbox_linux_3.png)
 
-4. O tipo de disco é VDI, confirmar cricando próximo.
+### 4. O tipo de disco é VDI, confirmar cricando próximo.
 
 ![Ambiente linux](image/ambiente_virtualbox_linux_4.png)
 
 
-5.  Armazenamento em disco fisíco, escolher o padrão.Dinamicamente alocado e próximo. 
+### 5. Armazenamento em disco fisíco, escolher o padrão.Dinamicamente alocado e próximo. 
 
 
 ![Ambiente linux](image/ambiente_virtualbox_linux_5.png)
 
-6. É sugerido 10GB de disco rígido, mas coloque 25GB.Cricar em criar.
+### 6. É sugerido 10GB de disco rígido, mas coloque 25GB.Cricar em criar.
 
 ![Ambiente linux](image/ambiente_virtualbox_linux_6.png)
 
-7. Observamos que foi criada nossa nova vm
+### 7. Observamos que foi criada nossa nova vm
 
 ![Ambiente linux](image/ambiente_virtualbox_linux_7.png)
 
-8. Vamos agora cricar em configurações, vamos fazer algumas melhorias.
+### 8. Vamos agora cricar em configurações, vamos fazer algumas melhorias.
 
 Em monitor, vamos melhorar a memória de vídeo.Colocando 64, sugerido pelo professor, porém pode ser menor.
 
@@ -62,7 +63,6 @@ Iniciando o sistema pela primeira vez
 Crique em iniciar.
 
 ![Ambiente linux-Confogurações-Armazenamento](image/ambiente_virtualbox_linux_8_5.png)
-
 
 ![Ambiente linux-Confogurações-Armazenamento](image/ambiente_virtualbox_linux_8_6.png)
 

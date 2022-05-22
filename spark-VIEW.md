@@ -1,23 +1,25 @@
 
 
-# VIEWS -No spark
+# VIEWS- No spark
 
 Material baseado nas aulas do Prof. Fernando Amaral (Udemy 18052022)
 
+As Views podem ser: 
 
+- GLOBAIS: VISÍVEIS EM TODAS AS SESSÕES
 
-GLOBAIS: VISÍVEIS EM TODAS AS SESSÕES
+- SESSÃO: VISÍVEIS APENAS NA PRÓPRIA SESSÃO
 
-SESSÃO: VISÍVEIS APENAS NA PRÓPRIA SESSÃO
+Podem ser criadas através de api dataframe ou comando sql
 
-Podem ser criadas atraves de api dataframe ou comando sql
+### Criando uma view usando api do dataframe
+`despachantes.createOrReplaceTempView("Despachantes_view1")`
 
-# Criando uma view usando api do dataframe
-despachantes.createOrReplaceTempView("Despachantes_view1")
-# Consultando a view
+### Consultando a view
 `spark.sql("select * from Despachantes_view1").show()`
 
-``` 
+```
+Output 
 +---+-------------------+------+-------------+------+----------+
 | id|               nome|status|       cidade|vendas|      data|
 +---+-------------------+------+-------------+------+----------+
@@ -33,8 +35,8 @@ despachantes.createOrReplaceTempView("Despachantes_view1")
 | 10|   Viviana Sequeira| Ativo| Porto Alegre|     0|2020-09-05|
 +---+-------------------+------+-------------+------+----------+
 ```
-##  Dica: É possível fazer qualquer transformação nos dados e criar uma View para ser usada como se fosse uma view em um banco relacional. A view criada acima é temporária.
-
+###  ⚠ Dica: 
+É possível fazer qualquer transformação nos dados e criar uma View para ser usada como se fosse uma view em um banco relacional. A view criada acima é temporária.
 
 ### Vamos criar uma segunda view CLOBAL e fazer a mesma consulta:
 `despachantes.createOrReplaceGlobalTempView("Despachantes_view2")`
@@ -42,12 +44,15 @@ despachantes.createOrReplaceTempView("Despachantes_view1")
 ## Vamos consultar 
 `spark.sql("select * from Despachantes_view2").show()`
 
-Dica: Deu erro pois a forma de consultar correta é acrescentando um prefixo global_temp.:
+⚠ Dica: 
+
+Deu erro pois a forma de consultar correta é acrescentando um prefixo global_temp.:
 
 `spark.sql("select * from global_temp.Despachantes_view2").show()`
 
 ```
 # Erro
+
 Traceback (most recent call last):
   File "<stdin>", line 1, in <module>
   File "/opt/spark/python/pyspark/sql/session.py", line 723, in sql
@@ -66,10 +71,12 @@ Traceback (most recent call last):
 KeyboardInterrupt
 >>>
 ```
-## Forma correta de consultar view global
+
+### Forma correta de consultar view global
  `spark.sql("select * from global_temp.Despachantes_view2").show()`
 
  ```
+ Output
 +---+-------------------+------+-------------+------+----------+
 | id|               nome|status|       cidade|vendas|      data|
 +---+-------------------+------+-------------+------+----------+
@@ -86,17 +93,21 @@ KeyboardInterrupt
 +---+-------------------+------+-------------+------+----------+
 ```
 
-## Criando um view temporaria usando o sql
+### Criando um view temporaria usando o sql
 
 `spark.sql("CREATE OR REPLACE TEMP VIEW DESP_VIEW AS select * from Despachantes")`
+
 ```
+Output
 
 DataFrame[]
->>>
+
 ```
 ## Consultando essa view.
 `spark.sql("select * from DESP_VIEW").show()`
 ```
+Output
+
 +---+-------------------+------+-------------+------+----------+
 | id|               nome|status|       cidade|vendas|      data|
 +---+-------------------+------+-------------+------+----------+

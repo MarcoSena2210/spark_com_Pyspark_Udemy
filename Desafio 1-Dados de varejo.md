@@ -1,29 +1,19 @@
 Desafio 1
 
-No cenário hipotético de uma empresa Ciclismo e Art do ramo de ciclismo, que trabalha com 10 produtos, tem no seu quadro funcional 10 vendedores.
-Atualmente possue 250 clientes.
-Costuma caracterizar os clientes em 3 níveis de fidelização.
-Sendo:
-Gold
-Platinum
+
+## No cenário hipotético de uma empresa chamada Ciclismo e Art.
+## Atua no ramo de ciclismo, trabalha com 10 produtos e tem no seu quadro funcional 10 vendedores. Atualmente possue 250 clientes, costuma caracterizar os clientes em 3 níveis de fidelização.
+
+## Sendo : Gold,Platinum e Silver.
+
+## Deseja fazer algumas análises para tomada de decisão conforme abaixo.
 
 
-Deseja fazer algumas análises para tomada de decisão conforme abaixo.
+## 1. Crie uma consulta que mostre, nesta ordem, Cliente, Estados e Status
 
-
-Diagrama Relacional, neste caso tem o foco apenas facilitar o entendimento do négocio, mesmo porque dever ser feita as análise usado dataframe.  
-
-![DR V](image/dr_desafio1.png)  
-
-
-
-
-# 1 Crie uma consulta que mostre, nesta ordem, Cliente, Estados e Status
-
-
-
-## Ir para o local onde estão os arquivos
+### Ir para o local onde estão os arquivos
 sena@sena-VirtualBox:~/download$ `cd Atividades`
+
 ## Verificando o que tem na pasta 
 sena@sena-VirtualBox:~/download/Atividades$ `ls -la`
 
@@ -37,21 +27,37 @@ drwxrwxr-x 6 sena sena  4096 mai  7 19:57 ..
 -rw-rw-r-- 1 sena sena 11882 ago 24  2021 Vendas.parquet
 -rw-rw-r-- 1 sena sena  2589 ago 24  2021 Vendedores.parquet
 ```
-## *No prompt de comando chamar o pyspark 
+
+## *No prompt de comando, chamar o pyspark 
 
 sena@sena-VirtualBox:~/ms-pyspark$ `pyspark`
 
 ![tela inicial do spark](image/tela-Inicial_spark.png)
 
-# Resposta:
-clientes_df =  spark.read.format("parquet").load("/home/sena/download/Atividades/Clientes.parquet")
 
-vendas_df =  spark.read.format("parquet").load("/home/sena/download/Atividades/Vendas.parquet")
+riamos um Diagrama Relacional, neste caso tem o foco apenas facilitar o entendimento do négocio, mesmo porque dever ser feita as análise usado dataframe.  
+
+![DR V](image/dr_desafio1.png)  
 
 
-from pyspark.sql import functions as Func
 
- clientes_df.select("Cliente","Estado","Status").show()
+# Resposta: Iremos lê os dados e criar 2 dataframes para armazenar os dados. 
+
+`clientes_df =  spark.read.format("parquet").load("/home/sena/download/Atividades/Clientes.parquet")`
+
+`vendas_df =  spark.read.format("parquet").load("/home/sena/download/Atividades/Vendas.parquet")`
+
+
+## ⚠ Dica: 
+
+### Vamos importar a biblioteca sql para facilitar as instruções sql.  
+
+`from pyspark.sql import functions as Func`
+
+ `clientes_df.select("Cliente","Estado","Status").show()`
+
+```
+Output 
 +--------------------+------+--------+
 |             Cliente|Estado|  Status|
 +--------------------+------+--------+
@@ -76,8 +82,9 @@ from pyspark.sql import functions as Func
 |     Amadeu Martinho|    RN|  Silver|
 |      Amélia Estévez|    PE|  Silver|
 +--------------------+------+--------+
+```
 
-# 2 Crie uma consulta que mostre apenas os clientes do Status “platinum” e “gold”
+## 2. Crie uma consulta que mostre apenas os clientes do Status “platinum” e “gold”
 
 
 # Resposta:
@@ -85,6 +92,7 @@ from pyspark.sql import functions as Func
 `clientes_df.select("ClienteId","Cliente","Status").where((Func.col("Status") == "Platinum") |  (Func.col("Status")== "Gold") ).show() `
 
 ```
+Output
 +---------+-------------------+--------+
 |ClienteId|            Cliente|  Status|
 +---------+-------------------+--------+
@@ -104,7 +112,7 @@ from pyspark.sql import functions as Func
 +---------+-------------------+--------+
 ```
 
-# Melhorando a resposta, ordenando por status
+### Melhorando a resposta, ordenando por status
 ` clientes_df.select("ClienteId","Cliente","Status").where((Func.col("Status") == "Platinum") |  (Func.col("Status")== "Gold") ).orderBy(Func.col("Status")).show()  `
 ```
 +---------+-------------------+--------+
@@ -127,7 +135,7 @@ from pyspark.sql import functions as Func
 
 ``` 
 
-# 3 Demostre quanto cada Status de Clientes representa em vendas?
+## 3. Demostre quanto cada Status de Clientes representa em vendas?
 
 ## Lendo o arquivo de vendas 
 `vendas_df = spark.read.format("parquet").load("/home/sena/download/Atividades/Vendas.parquet")`
@@ -135,6 +143,7 @@ from pyspark.sql import functions as Func
 `vendas_df.show()`
 
 ```
+Output 
 +--------+----------+---------+---------+--------+
 |VendasID|VendedorID|ClienteID|     Data|   Total|
 +--------+----------+---------+---------+--------+
@@ -160,7 +169,11 @@ from pyspark.sql import functions as Func
 |      20|         9|      218|15/1/2018|  131.75|
 +--------+----------+---------+---------+--------+
 ```
->>> vendas_df.show(2)
+## Listando 2 registros de vendas
+`vendas_df.show(2)`
+
+```
+Ouput
 +--------+----------+---------+--------+------+
 |VendasID|VendedorID|ClienteID|    Data| Total|
 +--------+----------+---------+--------+------+
@@ -168,8 +181,15 @@ from pyspark.sql import functions as Func
 |       2|         6|      185|1/1/2020| 150.4|
 +--------+----------+---------+--------+------+
 only showing top 2 rows
+```
 
->>> clientes_df.show(2)
+## Listando 2 registros de clientes
+
+`clientes_df.show(2)`
+
+```
+Output
+
 +---------+--------------------+------+------+------+
 |ClienteID|             Cliente|Estado|Genero|Status|
 +---------+--------------------+------+------+------+
@@ -178,11 +198,14 @@ only showing top 2 rows
 +---------+--------------------+------+------+------+
 only showing top 2 rows
 
+```
+## Fazendo o join entre clientes e vendas, somando o total e agrupando por status 
+
 `from pyspark.sql.functions import sum as SUM`
 
 `vendas_por_status = vendas_df.join(clientes_df,vendas_df.ClienteID == clientes_df.ClienteID).groupBy(clientes_df.Status).agg(SUM("Total")).orderBy(Func.col("sum(Total)").desc())show()`
 
-REsposta atividade 3:
+## Resposta atividade 3:
 Sem ordenar 
 `vendas_df.join(clientes_df,vendas_df.ClienteID == clientes_df.ClienteID).groupBy(clientes_df.Status).agg(SUM("Total")).show()`
 
@@ -196,13 +219,14 @@ Sem ordenar
 +--------+------------------+
 ``` 
 
-Ordenado em decrescente e atribuindo para um daframe Atividade3
+## Ordenado em decrescente e atribuindo para um daframe Atividade3
 
 `Atividade3 =vendas_df.join(clientes_df,vendas_df.ClienteID == clientes_df.ClienteID).groupBy(clientes_df.Status).agg(SUM("Total")).orderBy(Func.col("sum(Total)").desc())`
 
 `Atividade3.show()`
 
 ``` 
+Output
 +--------+------------------+
 |  Status|        sum(Total)|
 +--------+------------------+
