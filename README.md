@@ -71,10 +71,24 @@ Você ainda vai encontrar material do curso para baixar: scripts, slides e dados
 [AULAS-Exemplos:]()
 
 - [RDD-Ações e transformações](https://github.com/MarcoSena2210/spark_com_Pyspark_Udemy/blob/main/rdd_acoes_transformacoes.md)
+
 - [Dataframes](https://github.com/MarcoSena2210/spark_com_Pyspark_Udemy/blob/main/dataframes.md)
-- [spark Sql](https://github.com/MarcoSena2210/spark_com_Pyspark_Udemy/blob/main/spark-SQL.md)
+
 - [spark View](https://github.com/MarcoSena2210/spark_com_Pyspark_Udemy/blob/main/spark-VIEW.md)
-- []()
+
+
+- [spark Sql](https://github.com/MarcoSena2210/spark_com_Pyspark_Udemy/blob/main/spark-SQL.md)
+
+
+- [DataFrame X Tebelas](https://github.com/MarcoSena2210/spark_com_Pyspark_Udemy/blob/main/Comparando Dataframe com tabelas.md)
+
+- [spark Join](https://github.com/MarcoSena2210/spark_com_Pyspark_Udemy/blob/main/spark-JOIN.md)
+
+
+
+
+
+
 
 [DESAFIOS:]()
 
