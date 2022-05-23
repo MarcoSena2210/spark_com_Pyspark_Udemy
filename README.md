@@ -80,6 +80,6 @@ Você ainda vai encontrar material do curso para baixar: scripts, slides e dados
 
 - ✅ [Desafio 1](https://github.com/MarcoSena2210/spark_com_Pyspark_Udemy/blob/main/Desafio%201-Dados%20de%20varejo.md)
 
-- [Desafio 2](https://github.com/MarcoSena2210/spark_com_Pyspark_Udemy/blob/main/Desafio%202-Banco%20de%20dados%20e%20persist%C3%AAncia.md)
+- ✅ [Desafio 2](https://github.com/MarcoSena2210/spark_com_Pyspark_Udemy/blob/main/Desafio%202-Banco%20de%20dados%20e%20persist%C3%AAncia.md)
 
 - [Desafio 2](Desafio 2-Banco de dados e persistência.md)
