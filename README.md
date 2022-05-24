@@ -82,12 +82,7 @@ Você ainda vai encontrar material do curso para baixar: scripts, slides e dados
 
 - [DataFrame X Tebelas](https://github.com/MarcoSena2210/spark_com_Pyspark_Udemy/blob/main/Comparando Dataframe com tabelas.md)
 
-- [spark Join](https://github.com/MarcoSena2210/spark_com_Pyspark_Udemy/blob/main/spark-JOIN.md)
-
-
-
-
-
+- [spark Join](https://github.com/MarcoSena2210/spark_com_Pyspark_Udemy/blob/main/spark - JOIN com DataFrames e SQL.md)
 
 
 [DESAFIOS:]()
@@ -95,5 +90,9 @@ Você ainda vai encontrar material do curso para baixar: scripts, slides e dados
 - ✅ [Desafio 1](https://github.com/MarcoSena2210/spark_com_Pyspark_Udemy/blob/main/Desafio%201-Dados%20de%20varejo.md)
 
 - ✅ [Desafio 2](https://github.com/MarcoSena2210/spark_com_Pyspark_Udemy/blob/main/Desafio%202-Banco%20de%20dados%20e%20persist%C3%AAncia.md)
+
+- ✅ [Desafio 3](https://github.com/MarcoSena2210/spark_com_Pyspark_Udemy/blob/main/Desafio 3-Consulats usando  o shell spark-sql.md)
+
+
 
 - [Desafio 2](Desafio 2-Banco de dados e persistência.md)
