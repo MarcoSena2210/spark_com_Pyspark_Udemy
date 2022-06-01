@@ -51,7 +51,7 @@ Você ainda vai encontrar material do curso para baixar: scripts, slides e dados
 # Aprendizado
 - ✅ Conhecer a Arquitetura e Detalhes do Spark
 - ✅ Criação de DataFrames
-- SparkSQL: Crie tabelas e consulta utilizando SQL
+- ✅ SparkSQL: Crie tabelas e consulta utilizando SQL
 - Conecte com outras fontes de Dados, como Postgres e MongoDB
 - Cria Aplicações Spark
 - Desenvolva modelos preditivos Utilizado Machine Learnig e Spark ML
@@ -80,9 +80,9 @@ Você ainda vai encontrar material do curso para baixar: scripts, slides e dados
 - [spark Sql](https://github.com/MarcoSena2210/spark_com_Pyspark_Udemy/blob/main/spark-SQL.md)
 
 
-- [DataFrame X Tebelas](https://github.com/MarcoSena2210/spark_com_Pyspark_Udemy/blob/main/Comparando Dataframe com tabelas.md)
+- [DataFrame X Tebelas](https://github.com/MarcoSena2210/spark_com_Pyspark_Udemy/blob/main/Comparando%20Dataframe%20com%20tabelas.md)
 
-- [spark Join](https://github.com/MarcoSena2210/spark_com_Pyspark_Udemy/blob/main/spark - JOIN com DataFrames e SQL.md)
+- [spark Join](https://github.com/MarcoSena2210/spark_com_Pyspark_Udemy/blob/main/spark%20-%20JOIN%20com%20DataFrames%20e%20SQL.md)
 
 
 [DESAFIOS:]()
@@ -91,7 +91,7 @@ Você ainda vai encontrar material do curso para baixar: scripts, slides e dados
 
 - ✅ [Desafio 2](https://github.com/MarcoSena2210/spark_com_Pyspark_Udemy/blob/main/Desafio%202-Banco%20de%20dados%20e%20persist%C3%AAncia.md)
 
-- ✅ [Desafio 3](https://github.com/MarcoSena2210/spark_com_Pyspark_Udemy/blob/main/Desafio 3-Consulats usando  o shell spark-sql.md)
+- ✅ [Desafio 3](https://github.com/MarcoSena2210/spark_com_Pyspark_Udemy/blob/main/Desafio%203-Consulats%20usando%20%20o%20shell%20spark-sql.md)
 
 
 

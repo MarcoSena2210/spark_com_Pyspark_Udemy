@@ -1,0 +1,489 @@
+# Spark - Conectando Outras Fontes de Dados
+
+Aqui vamos aprender como usar o banco de dados PostgresSQL para exportar e gravar dados.Vamos demonstrar como:
+
+• Você pode conectar com outras fontes de dados
+
+• Tratar os dados como Dataframe
+
+• Persistir como Tabela
+
+• Também é possível Gravar Dados em outras fontes
+
+## Extraindo Dados de PostgreSQL
+### Etapas
+- 1.Instalar o postgres no ubuntu 
+- 2.Criar banco de dados Vendas
+- 3.Configurar acesso
+- 4.Baixar Driver jdbc
+- 5.Usar o Pyspark para ler,transformar e gravar dadosno Postgre
+
+### * Modelo relacional
+![DR VENDAS](image/dr_venda_no_postgres.png)
+
+# 1.Instalar o postgres no ubuntu
+## 1.2 Procedimentos para instalar o postgres-12 no ubuntu 22.04
+https://www.postgresql.org/download/linux/ubuntu/
+
+
+## 1.3  Crie a configuração do repositório de arquivos:
+`sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list`
+
+## 1.4 Importe a chave de assinatura do repositório:
+`wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -`
+
+## 1.5 Atualize as listas de pacotes:
+`sudo apt-get update`
+
+## 1.6 Instale a versão mais recente do PostgreSQL.
+`sudo apt-get -y install postgresql`
+
+### Dica:
+## Se você quiser uma versão específica, use 'postgresql-12' ou similar ao invés de 'postgresql':
+`sudo apt-get -y install postgresql-12`
+
+# OBS:  Para este lab instalamos o postgresql-12.
+# Com o banco dedados instalados vamos logar no postgres.
+
+sena@sena-VirtualBox:~$ `sudo -u postgres psql`
+
+`[sudo] senha para sena:`
+
+```
+Output
+could not change directory to "/home/sena": Permissão negada
+psql (14.2 (Ubuntu 14.2-1ubuntu1))
+Type "help" for help.
+
+postgres=#
+``` 
+
+## Dica:
+## Embora tenha dado esse erro de permissão,foi permitido seus uso.
+
+
+## Criandoo o banco vendas 
+postgres=# `create database vendas;`
+```
+CREATE DATABASEs`
+``` 
+
+### Conectar  no console para o banco que acabamos de criar
+
+postgres=# `\c vendas;`
+
+```
+Output
+You are now connected to database "vendas" as user "postgres".
+vendas=#
+```
+
+## Vamos criar as  tabelas no banco de dados e inserir alguns dados nas tabelas usando os scrips disponibilizados pelo professor.
+
+## ⚠ Dica:
+### Para executar os scrips é só usar `\i` no prompt de comando e informar o caminho dos scripts.
+
+
+###  Iniciar a execução dos scripts 1 até 6
+```
+\i /home/sena/download/demo/1.CreateTable.sql
+
+\i /home/sena/download/demo/2.InsertClientes.sql
+
+\i /home/sena/download/demo/3.InsertIntoProdutos.sql
+
+\i /home/sena/download/demo/4.InsertIntoVendedores.sql
+
+\i //home/sena/download/demo/5.InsertIntoVendas.sql
+
+\i /home/sena/download/demo/6.InsertItensVenda.sql
+
+```
+
+## Ao executar o primeiro script vendas#\
+`\i /home/sena/download/demo/1.CreateTable.sql`
+```
+ERROR
+output 
+: Permissão negada
+```
+## ⚠ Dica Execute cada instrução dos script_sql em separada, um por vez.
+
+
+## Defina o formato de data no PostgreSql
+`SET DATESTYLE TO PostgreSQL,European;`
+
+## Gera a sequencia
+`CREATE SEQUENCE IDVendedor;`
+
+O comando CREATE SEQUENCE cria um gerador de números seqüenciais, o que envolve a criação e a inicialização de uma tabela especial com uma única linha chamada IDVendedor. O usuário que executa o comando se torna o dono do gerador.
+
+Se for fornecido o nome do esquema então a seqüência será criada no esquema especificado, senão será criada no esquema corrente. As seqüências temporárias são criadas em um esquema especial e, portanto, não pode ser fornecido o nome do esquema ao se criar uma seqüência temporária. O nome da seqüência deve ser distinto do nome de qualquer outra seqüência, tabela, índice ou visão no mesmo esquema.
+
+link: http://pgdocptbr.sourceforge.net/pg82/sql-createsequence.html#:~:text=O%20comando%20CREATE%20SEQUENCE%20cria,torna%20o%20dono%20do%20gerador.
+
+## Cria a tabela Vendedores 
+CREATE TABLE Vendedores(
+  IDVendedor int default nextval('IDVendedor'::regclass) PRIMARY KEY,
+  Nome Varchar(50)
+);
+
+## Cria a tabela Clientes e a sequencia
+CREATE SEQUENCE IDCliente;
+CREATE TABLE Clientes(
+  IDCliente int default nextval('IDCliente'::regclass) PRIMARY KEY,
+  Cliente Varchar(50),
+  Estado Varchar(2),
+  Sexo Char(1),
+  Status Varchar(50)
+);
+
+## Cria a tabela Vendedores e a sequencia
+CREATE SEQUENCE IDProduto;
+CREATE TABLE Produtos(
+  IDProduto int default nextval('IDProduto'::regclass) PRIMARY KEY,
+  Produto Varchar(100),
+  Preco Numeric(10,2)
+);
+
+## Executando no terminal
+vendas=# `CREATE SEQUENCE IDProduto;
+CREATE TABLE Produtos(
+  IDProduto int default nextval('IDProduto'::regclass) PRIMARY KEY,
+  Produto Varchar(100),
+  Preco Numeric(10,2)
+); `
+```
+Output
+CREATE SEQUENCE
+CREATE TABLE
+vendas=#
+```
+## Cria a tabela Vendas e a sequencia
+CREATE SEQUENCE IDVenda;
+CREATE TABLE Vendas(
+  IDVenda int default nextval('IDVenda'::regclass) PRIMARY KEY,
+  IDVendedor int references Vendedores (IDVendedor),
+  IDCliente int references Clientes (IDCliente),
+  Data Date,
+  Total Numeric(10,2)
+);
+
+## Executando no terminal
+vendas=# `CREATE SEQUENCE IDVenda;
+CREATE TABLE Vendas(
+  IDVenda int default nextval('IDVenda'::regclass) PRIMARY KEY,
+  IDVendedor int references Vendedores (IDVendedor),
+  IDCliente int references Clientes (IDCliente),
+  Data Date,
+  Total Numeric(10,2)
+); `
+
+```
+Output
+CREATE SEQUENCE
+CREATE TABLE
+vendas=#
+```
+## Cria a tabela ItensVenda 
+CREATE TABLE ItensVenda (
+    IDProduto int REFERENCES Produtos ON DELETE RESTRICT,
+    IDVenda int REFERENCES Vendas ON DELETE CASCADE,
+    Quantidade int,
+    ValorUnitario decimal(10,2),
+    ValorTotal decimal(10,2),
+	Desconto decimal(10,2),
+    PRIMARY KEY (IDProduto, IDVenda)
+);
+
+## Executando no terminal
+vendas=# `CREATE TABLE ItensVenda (
+    IDProduto int REFERENCES Produtos ON DELETE RESTRICT,
+    IDVenda int REFERENCES Vendas ON DELETE CASCADE,
+    Quantidade int,
+    ValorUnitario decimal(10,2),
+    ValorTotal decimal(10,2),
+    Desconto decimal(10,2),
+    PRIMARY KEY (IDProduto, IDVenda)
+); `
+
+```
+Output 
+CREATE TABLE
+vendas=#
+``` 
+### listar tabelas no banco de dados vendas
+\dt
+
+vendas=# `\dt `
+
+```
+Output
+           List of relations
+ Schema |    Name    | Type  |  Owner
+--------+------------+-------+----------
+ public | clientes   | table | postgres
+ public | itensvenda | table | postgres
+ public | produtos   | table | postgres
+ public | vendas     | table | postgres
+ public | vendedores | table | postgres
+(5 rows)
+vendas=# \dt
+           List of relations
+ Schema |    Name    | Type  |  Owner
+--------+------------+-------+----------
+ public | clientes   | table | postgres
+ public | itensvenda | table | postgres
+ public | produtos   | table | postgres
+ public | vendas     | table | postgres
+ public | vendedores | table | postgres
+(5 rows)
+```
+
+## listando os registros da tabela de vendores
+vendas=# `select * from vendedores;`
+```
+Output
+ idvendedor |       nome
+------------+------------------
+          1 | Armando Lago
+          2 | Capitolino Bahía
+          3 | Daniel Pirajá
+          4 | Godo Capiperibe
+          5 | Hélio Liberato
+          6 | Iberê Lacerda
+          7 | Jéssica Castelão
+          8 | Napoleão Méndez
+          9 | Simão Rivero
+         10 | Tobias Furtado
+(10 rows)
+vendas=#
+```
+
+## ⚠ Dica:
+## Por padrão o postgres não pede para criar umasenha durante a instalação, então vamos  criar uma senha para nosso banco.Será uma senha apenas para teste,usei meu sobrenome sena
+vendas=# `\password`
+``` 
+Pedirá confirmação.
+Enter new password for user "postgres":
+Enter it again:
+vendas=#
+``` 
+
+### Pelo fato de não ter conseguido executar os scrips, pois estava dando permissão negada.
+### Foi copiado o conteúdo de inserção das tabelas e localizado na pasta .\spark_udemy\spark_com_Pyspark_Udemy\script_sql e colado direto no prompt de comando e executado.Isso foi feito para popular todas as tabelas.   
+
+### Importante seguir a ordem sequencial dos script's, por causa da tabela de associação itensvenda.Para evitar a   
+
+### Para sair do postgres
+\q
+
+# *** Como foi inserido dados errados no momento da importação, teremos que resolver. 
+
+### No browse,  baixar e instalar driver jdbc para postgres no link.
+https://jdbc.postgresql.org/download/postgresql-42.2.23.jar.Por degfault o linux baicxará o arquivo na pasta Download.
+
+## ⚠ Dica: 
+### Comando para baixar via termnal.
+`wget https://jdbc.postgresql.org/download/postgresql-42.2.23.jar`
+
+
+### Exemplo de como usar o jdbc comp pyspark  
+pyspark --jars  [caminho e nome do jdbc arq.jar]
+
+### Para acessar o banco usando jdbc, vamos abrir um outro terminal usando o payspark.Para não termos que informar o path da pasta do drive jdbc, vamos nos posicionar na mesma pasta.
+
+sena@sena-VirtualBox:~$ `cd Downloads`
+
+## Vamos chamar o pyspark e passar o parâmetro do driver jdbc
+
+sena@sena-VirtualBox:~/Downloads$ `pyspark --jars postgresql-42.2.23.jar` 
+
+```
+Output
+Python 3.10.4 (main, Apr  2 2022, 09:04:19) [GCC 11.2.0] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+22/05/31 19:15:52 WARN Utils: Your hostname, sena-VirtualBox resolves to a loopback address: 127.0.1.1; using 10.0.2.15 instead (on interface enp0s3)
+22/05/31 19:15:52 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address
+WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by org.apache.spark.unsafe.Platform (file:/opt/spark/jars/spark-unsafe_2.12-3.1.3.jar) to constructor java.nio.DirectByteBuffer(long,int)
+WARNING: Please consider reporting this to the maintainers of org.apache.spark.unsafe.Platform
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release
+22/05/31 19:15:53 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+Using Spark's default log4j profile: org/apache/spark/log4j-defaults.properties
+Setting default log level to "WARN".
+To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
+Welcome to
+      ____              __
+     / __/__  ___ _____/ /__
+    _\ \/ _ \/ _ `/ __/  '_/
+   /__ / .__/\_,_/_/ /_/\_\   version 3.1.3
+      /_/
+
+Using Python version 3.10.4 (main, Apr  2 2022 09:04:19)
+Spark context Web UI available at http://10.0.2.15:4040
+Spark context available as 'sc' (master = local[*], app id = local-1654042559545).
+SparkSession available as 'spark'.
+```
+### Embora á tenhamos aberto uma sessão, vamos chamar a SparkSession
+`from pyspark.sql import SparkSession`
+
+### Vamos lê os dados da tabela venda e atribuir a um novo dataframe chamado resumo, poderia ser qualquer nome..
+#### Iremos usar o método read para lê os dados e passar vários parametros:
+#### 1) O formato : jdbc
+#### os demais vamos passar por option, sendo parametro, valor    
+#### 2) A url que é o endereço da url e do banco de dados : "url", "jdbc:postgresql://localhost:5432/vendas"
+
+#### 3) O nome da tabela: "Vendas"
+#### 4) O nome do usuario, por padrão é: "postgres"
+#### 5) A senha que criamos: "sena"  
+#### 6) O driver jdbc : "org.postgresql.Driver"
+#### e por fim o método load...ficará assim.
+
+`resumo = spark.read.format("jdbc").option("url","jdbc:postgresql://localhost:5432/vendas").option("dbtable","Vendas").option("user","postgres").option("password","sena").option("driver","org.postgresql.Driver").load()`
+
+### Listando os registors da tabela através do dataframe resumo.
+`resumo.show()`
+
+```
+Output
++-------+----------+---------+----------+--------+
+|idvenda|idvendedor|idcliente|      data|   total|
++-------+----------+---------+----------+--------+
+|      1|         1|        1|2016-01-01| 8053.60|
+|      2|         6|      185|2016-01-01|  150.40|
+|      3|         7|       31|2016-01-02| 6087.00|
+|      4|         5|        1|2016-01-02|13828.60|
+|      5|         8|      120|2016-01-03|26096.66|
+|      6|         9|       74|2016-01-04|18402.00|
+|      7|         9|      191|2016-01-06| 7524.20|
+|      8|         6|        2|2016-01-06|12036.60|
+|      9|         7|       91|2016-01-06| 2804.75|
+|     10|         2|      202|2016-01-06| 8852.00|
+|     11|         1|        3|2016-01-08|16545.25|
+|     12|         7|       32|2016-01-09|11411.88|
+|     13|         4|      136|2016-01-10|15829.70|
+|     14|         3|      249|2016-01-12| 6154.36|
+|     15|         4|        5|2016-01-12| 3255.08|
+|     16|         7|      192|2016-01-13| 2901.25|
+|     17|         2|       79|2016-01-13|15829.70|
+|     18|        10|      136|2016-01-14|16996.36|
+|     19|        10|      191|2016-01-14|  155.00|
+|     20|         9|      218|2016-01-15|  131.75|
++-------+----------+---------+----------+--------+
+only showing top 20 rows
+>>>
+```
+
+### Podemos lê qualquer outra tabela
+
+
+
+### Tranformar os dados, aqui vamos apenas exebir a colua data e total
+`vendadata = resumo.select("data","total").show()`
+
+```
+Output
++----------+--------+
+|      data|   total|
++----------+--------+
+|2016-01-01| 8053.60|
+|2016-01-01|  150.40|
+|2016-01-02| 6087.00|
+|2016-01-02|13828.60|
+|2016-01-03|26096.66|
+|2016-01-04|18402.00|
+|2016-01-06| 7524.20|
+|2016-01-06|12036.60|
+|2016-01-06| 2804.75|
+|2016-01-06| 8852.00|
+|2016-01-08|16545.25|
+|2016-01-09|11411.88|
+|2016-01-10|15829.70|
+|2016-01-12| 6154.36|
+|2016-01-12| 3255.08|
+|2016-01-13| 2901.25|
+|2016-01-13|15829.70|
+|2016-01-14|16996.36|
+|2016-01-14|  155.00|
+|2016-01-15|  131.75|
++----------+--------+
+only showing top 20 rows
+>>>
+```
+
+### Vamos gravar os dados do novo dataframe (vendadata) no banco vendas
+`vendadata.write.format("jdbc").option("url","jdbc:postgresql://localhost:5432/vendas").option("dbtable","Vendadata").option("user","postgres").option("password","sena").option("driver","org.postgresql.Driver").save()`
+
+### Saindo do payspark `CTRL+D`  
+
+### Entrando no SGBD
+`sudo -u postgres psql`
+
+### Informar qual a base de dados vamos usar
+`postgres=# \c vendas;`
+```
+You are now connected to database "vendas" as user 
+```
+
+Precisamos verificar se foi criada a nova tabela vendadata.
+Listando as tabelas no SGBD.
+vendas=# `\dt`
+```
+Output
+           List of relations
+ Schema |    Name    | Type  |  Owner
+--------+------------+-------+----------
+ public | clientes   | table | postgres
+ public | itensvenda | table | postgres
+ public | produtos   | table | postgres
+ public | vendadata  | table | postgres
+ public | vendas     | table | postgres
+ public | vendedores | table | postgres
+(6 rows)
+```
+
+### Será que os dados vieram ou só foi criada a tabela?
+
+#### Listando os registros..
+vendas=# `select * from vendadata;`
+``` 
+Output
+    data    |  total
+------------+----------
+ 2016-01-01 |  8053.60
+ 2016-01-01 |   150.40
+ 2016-01-02 |  6087.00
+ 2016-01-02 | 13828.60
+ 2016-01-03 | 26096.66
+ 2016-01-04 | 18402.00
+ 2016-01-06 |  7524.20
+ 2016-01-06 | 12036.60
+ 2016-01-06 |  2804.75
+ 2016-01-06 |  8852.00
+ 2016-01-08 | 16545.25
+ 2016-01-09 | 11411.88
+ 2016-01-10 | 15829.70
+ 2016-01-12 |  6154.36
+ 2016-01-12 |  3255.08
+ 2016-01-13 |  2901.25
+ 2016-01-13 | 15829.70
+:...
+```
+
+### Sair do postgres
+\q
+
+
+# Concluímos a instalação do postgres,~instalação seu drive jdbc, criamos o banco de dados vendas,populamos as tabelas.Depois consultamos seus dados.
+
+
+Referência:
+
+#jdbc para postgres
+https://jdbc.postgresql.org/download/postgresql-42.2.23.jar
+
+https://www.digitalocean.com/community/tutorials/how-to-install-postgresql-on-ubuntu-20-04-quickstart-pt
+
+https://experienceleague.adobe.com/docs/experience-platform/query/sql/spark-sql-functions.html?lang=pt-BR
