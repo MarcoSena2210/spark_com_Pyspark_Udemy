@@ -133,18 +133,55 @@ CarrosTreino, CarrosTeste = Carros.randomSplit([0.7,0.3])
 ```
 ## Criado modelo 
 ## A coluna caracteristicas foi criada pelo VectorAssembler
-reglin = LinearRegression(featuresCol="caracteristicas", labelCol="HP")
 
-modelo = reglin.fit(vec_CarrosTreino)
+`reglin = LinearRegression(featuresCol="caracteristicas", labelCol="HP")`
 
+`modelo = reglin.fit(vec_CarrosTreino)`
 
-#pipelines permite criar um fluxo do processo
+```
+output
+22/06/06 20:35:38 WARN Instrumentation: [f3f32a71] regParam is zero, which might cause numerical instability and overfitting.
+```
 
-from pyspark.ml import Pipeline
+## Pipelines permite criar um fluxo do processo
+`from pyspark.ml import Pipeline`
 
-pipeline = Pipeline(stages=[veccaracteristicas,reglin])
-#fit 
-pipelineModel = pipeline.fit(Carros)
-#previsão
-previsao = pipelineModel.transform(Carros)
-previsao.show()
+## 2 fases (veccaracteristicas,reglin)
+`pipeline = Pipeline(stages=[veccaracteristicas,reglin])`
+
+## Vamos agora criar o modelo  
+`pipelineModel = pipeline.fit(Carros)`
+```
+Output
+22/06/06 20:43:39 WARN Instrumentation: [c891862e] regParam is zero, which might cause numerical instability and overfitting.
+```
+
+## Previsão
+`previsao = pipelineModel.transform(Carros)`
+
+`previsao.show(15)`
+```
+Output
++-------+---------+-----------+---+------------------+------------------+
+|Consumo|Cilindros|Cilindradas| HP|   caracteristicas|        prediction|
++-------+---------+-----------+---+------------------+------------------+
+|     21|        6|        160|110|  [21.0,6.0,160.0]|162.32154816816646|
+|     21|        6|        160|110|  [21.0,6.0,160.0]|162.32154816816646|
+|    228|        4|        108| 93| [228.0,4.0,108.0]| 82.51715587712931|
+|    214|        6|        258|110| [214.0,6.0,258.0]|141.86680518718754|
+|    187|        8|        360|175| [187.0,8.0,360.0]|202.93528239714834|
+|    181|        6|        225|105| [181.0,6.0,225.0]| 145.4980634611832|
+|    143|        8|        360|245| [143.0,8.0,360.0]|   207.41448530972|
+|    244|        4|       1467| 62|[244.0,4.0,1467.0]| 69.69282676584851|
+|    228|        4|       1408| 95|[228.0,4.0,1408.0]| 71.80767356085781|
+|    192|        6|       1676|123|[192.0,6.0,1676.0]|132.42483285541724|
+|    178|        6|       1676|123|[178.0,6.0,1676.0]|133.85003378214458|
+|    164|        8|       2758|180|[164.0,8.0,2758.0]|185.52180807776818|
+|    173|        8|       2758|180|[173.0,8.0,2758.0]|184.60560748201488|
+|    152|        8|       2758|180|[152.0,8.0,2758.0]| 186.7434088721059|
+|    104|        8|        472|205| [104.0,8.0,472.0]| 210.4620247994542|
++-------+---------+-----------+---+------------------+------------------+
+only showing top 15 rows
+```
+
+### Embora tem sido um fluxo pequeno, pequeno com apenas dois estágios.A gente pode utilizar esse conceito para criar pipelines bastante grandes aqui que acontecem eventualmente. 
