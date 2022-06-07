@@ -52,7 +52,7 @@ Você ainda vai encontrar material do curso para baixar: scripts, slides e dados
 - ✅ Conhecer a Arquitetura e Detalhes do Spark
 - ✅ Criação de DataFrames
 - ✅ SparkSQL: Crie tabelas e consulta utilizando SQL
-- Conecte com outras fontes de Dados, como Postgres e MongoDB
+- ✅ Spark - Instalando e usando o postgresSQL 12
 - Cria Aplicações Spark
 - Desenvolva modelos preditivos Utilizado Machine Learnig e Spark ML
 - Cria aplicações próximas ao tempo real com Spark Streaming
@@ -83,6 +83,14 @@ Você ainda vai encontrar material do curso para baixar: scripts, slides e dados
 - [DataFrame X Tebelas](https://github.com/MarcoSena2210/spark_com_Pyspark_Udemy/blob/main/Comparando%20Dataframe%20com%20tabelas.md)
 
 - [spark Join](https://github.com/MarcoSena2210/spark_com_Pyspark_Udemy/blob/main/spark%20-%20JOIN%20com%20DataFrames%20e%20SQL.md)
+
+- [Spark - e PostgresSQL 12](https://github.com/MarcoSena2210/spark_com_Pyspark_Udemy/blob/main/Spark - Instalando e usando o postgresSQL 12.md)
+
+
+- [Machine Learning-Regressão](https://github.com/MarcoSena2210/spark_com_Pyspark_Udemy/blob/main/Machine Learning com Regressão.md)
+
+
+- [Machine Learning-Classificação](https://github.com/MarcoSena2210/spark_com_Pyspark_Udemy/blob/main/Machine Learning ?????? .md)
 
 
 [DESAFIOS:]()

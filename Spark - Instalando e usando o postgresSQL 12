@@ -278,8 +278,6 @@ vendas=#
 ### Para sair do postgres
 \q
 
-# *** Como foi inserido dados errados no momento da importação, teremos que resolver. 
-
 ### No browse,  baixar e instalar driver jdbc para postgres no link.
 https://jdbc.postgresql.org/download/postgresql-42.2.23.jar.Por degfault o linux baicxará o arquivo na pasta Download.
 
